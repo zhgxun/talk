@@ -23,5 +23,6 @@ hs_err_pid*
 
 # disable commit directory
 .idea/
+.idea/*
 target
 talk.iml
