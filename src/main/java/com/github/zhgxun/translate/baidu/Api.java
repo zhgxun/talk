@@ -18,7 +18,7 @@ public class Api {
     /**
      * APP ID
      */
-    private static final String APPID = "20180316000136280";
+    private static final String APP_ID = "20180316000136280";
 
     /**
      * 密钥
@@ -55,14 +55,14 @@ public class Api {
         params.put("from", from);
         params.put("to", to);
 
-        params.put("appid", APPID);
+        params.put("appid", APP_ID);
 
         // 随机数
         String salt = String.valueOf(System.currentTimeMillis());
         params.put("salt", salt);
 
         // 签名
-        String src = APPID + query + salt + SECURITY_KEY; // 加密前的原文
+        String src = APP_ID + query + salt + SECURITY_KEY; // 加密前的原文
         params.put("sign", MD5.md5(src));
 
         return params;
