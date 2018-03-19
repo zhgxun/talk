@@ -1,5 +1,7 @@
 package com.github.zhgxun.translate.baidu;
 
+import com.github.zhgxun.util.Md5;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +65,7 @@ public class Api {
 
         // 签名
         String src = APP_ID + query + salt + SECURITY_KEY; // 加密前的原文
-        params.put("sign", MD5.md5(src));
+        params.put("sign", Md5.md5(src));
 
         return params;
     }

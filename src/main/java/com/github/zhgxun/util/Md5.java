@@ -1,4 +1,4 @@
-package com.github.zhgxun.translate.baidu;
+package com.github.zhgxun.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * 获取加密的md5值
  */
-public class MD5 {
+public class Md5 {
 
     /**
      * 首先初始化一个字符数组，用来存放每个16进制字符
