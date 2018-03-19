@@ -79,6 +79,11 @@ public class Word {
      */
     private String speakUrl;
 
+    /**
+     * 书中原文例句
+     */
+    private String example;
+
     public Integer getId() {
         return id;
     }
@@ -197,5 +202,13 @@ public class Word {
 
     public void setSpeakUrl(String speakUrl) {
         this.speakUrl = speakUrl;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
     }
 }
