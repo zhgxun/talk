@@ -1,10 +1,16 @@
 package com.github.zhgxun.translate.youdao;
 
+import com.github.zhgxun.util.Http;
 import com.github.zhgxun.util.Md5;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 有道翻译API
+ *
+ * @link http://ai.youdao.com/docs/doc-trans-api.s#p01
+ */
 public class Api {
 
     /**
@@ -23,8 +29,22 @@ public class Api {
     private static final String SECURITY_KEY = "";
 
     public static String result(String query, String from, String to) {
+        Map<String, String> params = buildParams(query, from, to);
+        return Http.post(HOST, params);
+    }
+
+    /**
+     * 构造参数
+     *
+     * @param query 待翻译的内容, 一个字符串
+     * @param from  翻译的原始语言简写
+     * @param to    翻译的目标语言
+     * @return 构造后的参数
+     */
+    private static Map<String, String> buildParams(String query, String from, String to) {
         String salt = String.valueOf(System.currentTimeMillis());
         String sign = Md5.md5(SECURITY_KEY + query + salt + APP_ID);
+
         Map<String, String> params = new HashMap<>();
         params.put("q", query);
         params.put("from", from);
@@ -32,8 +52,8 @@ public class Api {
         params.put("sign", sign);
         params.put("salt", salt);
         params.put("appKey", SECURITY_KEY);
-        return Http.post(HOST, params);
-    }
 
+        return params;
+    }
 
 }

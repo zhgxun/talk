@@ -1,7 +1,5 @@
-package com.github.zhgxun.translate.youdao;
+package com.github.zhgxun.util;
 
-import com.github.zhgxun.util.Url;
-import com.sun.javafx.iio.ios.IosDescriptor;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -28,6 +26,13 @@ import java.util.Map.Entry;
  */
 public class Http {
 
+    /**
+     * 发送get请求
+     *
+     * @param url           请求地址
+     * @param requestParams 请求参数
+     * @return 响应结果
+     */
     public static String get(String url, Map<String, String> requestParams) {
         // 1. 创建HttpClient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
