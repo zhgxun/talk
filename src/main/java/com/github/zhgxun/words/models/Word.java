@@ -84,6 +84,10 @@ public class Word {
      */
     private String example;
 
+    public Word() {
+
+    }
+
     public Integer getId() {
         return id;
     }

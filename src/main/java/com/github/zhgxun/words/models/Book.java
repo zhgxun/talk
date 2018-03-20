@@ -34,6 +34,10 @@ public class Book {
      */
     private Date date;
 
+    public Book() {
+
+    }
+
     public Integer getId() {
         return id;
     }

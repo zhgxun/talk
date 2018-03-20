@@ -21,12 +21,12 @@ public class Api {
     /**
      * APP ID
      */
-    private static final String APP_ID = "";
+    private static final String APP_ID = "0351f6c84398af01";
 
     /**
      * 密钥
      */
-    private static final String SECURITY_KEY = "";
+    private static final String SECURITY_KEY = "JxDLvGG64fh5ggCqXkXdERUSZRhfig8j";
 
     public static String result(String query, String from, String to) {
         Map<String, String> params = buildParams(query, from, to);
@@ -43,7 +43,7 @@ public class Api {
      */
     private static Map<String, String> buildParams(String query, String from, String to) {
         String salt = String.valueOf(System.currentTimeMillis());
-        String sign = Md5.md5(SECURITY_KEY + query + salt + APP_ID);
+        String sign = Md5.md5(APP_ID + query + salt + SECURITY_KEY);
 
         Map<String, String> params = new HashMap<>();
         params.put("q", query);
@@ -51,7 +51,7 @@ public class Api {
         params.put("to", to);
         params.put("sign", sign);
         params.put("salt", salt);
-        params.put("appKey", SECURITY_KEY);
+        params.put("appKey", APP_ID);
 
         return params;
     }
