@@ -10,7 +10,7 @@ public class Api {
     /**
      * 有道翻译服务地址
      */
-    private static final String TRANS_API_HOST = "http://openapi.youdao.com/api";
+    private static final String HOST = "http://openapi.youdao.com/api";
 
     /**
      * APP ID
@@ -32,6 +32,8 @@ public class Api {
         params.put("sign", sign);
         params.put("salt", salt);
         params.put("appKey", SECURITY_KEY);
-        return Get.post("http://openapi.youdao.com/api", params);
+        return Http.post(HOST, params);
     }
+
+
 }

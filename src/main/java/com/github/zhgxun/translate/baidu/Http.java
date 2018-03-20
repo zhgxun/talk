@@ -20,10 +20,17 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Get {
+public class Http {
     private static final int SOCKET_TIMEOUT = 10000; // 10S
     private static final String GET = "GET";
 
+    /**
+     * get方式请求数据， 考虑使用httpClient替换
+     *
+     * @param host
+     * @param params
+     * @return
+     */
     public static String get(String host, Map<String, String> params) {
         try {
             // 设置SSLContext
@@ -32,15 +39,15 @@ public class Get {
 
             String sendUrl = Url.query(host, params);
 
-            // System.out.println("URL:" + sendUrl);
-
-            URL uri = new URL(sendUrl); // 创建URL对象
+            // 创建URL对象
+            URL uri = new URL(sendUrl);
             HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
             if (conn instanceof HttpsURLConnection) {
                 ((HttpsURLConnection) conn).setSSLSocketFactory(sslcontext.getSocketFactory());
             }
 
-            conn.setConnectTimeout(SOCKET_TIMEOUT); // 设置相应超时
+            // 设置相应超时
+            conn.setConnectTimeout(SOCKET_TIMEOUT);
             conn.setRequestMethod(GET);
             int statusCode = conn.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {

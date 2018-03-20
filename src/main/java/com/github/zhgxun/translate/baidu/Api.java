@@ -15,7 +15,7 @@ public class Api {
     /**
      * 百度翻译服务地址
      */
-    private static final String TRANS_API_HOST = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+    private static final String HOST = "http://api.fanyi.baidu.com/api/trans/vip/translate";
 
     /**
      * APP ID
@@ -40,7 +40,7 @@ public class Api {
      */
     public static String result(String query, String from, String to) {
         Map<String, String> params = buildParams(query, from, to);
-        return Get.get(TRANS_API_HOST, params);
+        return Http.get(HOST, params);
     }
 
     /**
@@ -56,7 +56,6 @@ public class Api {
         params.put("q", query);
         params.put("from", from);
         params.put("to", to);
-
         params.put("appid", APP_ID);
 
         // 随机数
