@@ -17,7 +17,7 @@ public class WordLib {
      * @param query 单词, 当然也包括短语和句子, 一般不适用句子, 如需要句子请去搜索引擎查找直接翻译
      * @return 单词是否存在
      */
-    public boolean hasOne(String query) {
+    public boolean haveOne(String query) {
         try {
             Integer id = jdbcTemplate.queryForObject("SELECT id FROM word WHERE query = ?", ((rs, rowNum) -> rs.getInt("id")), query);
             return id >= 1;
