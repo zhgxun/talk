@@ -1,4 +1,4 @@
-package com.github.zhgxun.demo.models;
+package com.github.zhgxun.test.models;
 
 public class Translate {
     private final long id;

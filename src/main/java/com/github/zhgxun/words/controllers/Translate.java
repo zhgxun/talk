@@ -1,7 +1,7 @@
 package com.github.zhgxun.words.controllers;
 
 import com.github.zhgxun.words.lib.TranslateLib;
-import com.github.zhgxun.words.models.Word;
+import com.github.zhgxun.models.Word;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

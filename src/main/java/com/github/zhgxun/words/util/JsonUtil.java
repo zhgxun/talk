@@ -1,6 +1,7 @@
 package com.github.zhgxun.words.util;
 
-import com.github.zhgxun.words.models.Word;
+import com.github.zhgxun.models.Word;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

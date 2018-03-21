@@ -1,7 +1,7 @@
 package com.github.zhgxun.words.lib;
 
 import com.github.zhgxun.translate.youdao.Api;
-import com.github.zhgxun.words.models.Word;
+import com.github.zhgxun.models.Word;
 import com.github.zhgxun.words.util.JsonUtil;
 
 /**

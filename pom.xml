@@ -77,7 +77,14 @@
             <artifactId>json</artifactId>
             <version>20180130</version>
         </dependency>
-        
+
+        <!-- spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.0.4.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>

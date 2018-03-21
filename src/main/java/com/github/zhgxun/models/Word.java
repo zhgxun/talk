@@ -1,4 +1,4 @@
-package com.github.zhgxun.words.models;
+package com.github.zhgxun.models;
 
 /**
  * 单词管理表模板, 具体的单词按书本来编排, 一本书一个表

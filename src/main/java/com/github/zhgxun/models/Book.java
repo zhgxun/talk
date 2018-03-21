@@ -1,4 +1,4 @@
-package com.github.zhgxun.words.models;
+package com.github.zhgxun.models;
 
 import java.sql.Date;
 
