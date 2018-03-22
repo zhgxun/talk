@@ -32,7 +32,7 @@ public class Book {
     /**
      * 出版日期
      */
-    private Date date;
+    private String date;
 
     public Book() {
 
@@ -78,11 +78,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

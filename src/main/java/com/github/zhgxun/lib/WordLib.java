@@ -61,7 +61,7 @@ public class WordLib {
      * 单词是否已经存在
      *
      * @param number 书或文档编号
-     * @param query 单词, 当然也包括短语和句子, 一般不适用句子, 如需要句子请去搜索引擎查找直接翻译
+     * @param query  单词, 当然也包括短语和句子, 一般不适用句子, 如需要句子请去搜索引擎查找直接翻译
      * @return 单词是否存在
      */
     public boolean haveOne(Integer number, String query) {
