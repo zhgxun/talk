@@ -192,11 +192,11 @@ public class Word {
         this.webDict = webDict;
     }
 
-    public String gettSpeakUrl() {
+    public String getTSpeakUrl() {
         return tSpeakUrl;
     }
 
-    public void settSpeakUrl(String tSpeakUrl) {
+    public void setTSpeakUrl(String tSpeakUrl) {
         this.tSpeakUrl = tSpeakUrl;
     }
 

@@ -2,8 +2,6 @@ package com.github.zhgxun.lib;
 
 import com.github.zhgxun.models.Book;
 import com.github.zhgxun.util.Db;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,7 +61,7 @@ public class BookLib {
      * @throws SQLException exception
      */
     public long add(Book book) throws SQLException {
-        String sql = "INSERT INTO `books`(`number`, `title`, `author`, `publisher`, `date`) VALUES(%d, '%s', '%s', '%s', '%s')";
+        String sql = "INSERT INTO `books`(`number`, `title`, `author`, `publisher`, `date`) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, book.getNumber());

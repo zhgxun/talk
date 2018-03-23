@@ -61,7 +61,7 @@ public class JsonUtil {
 
         // 翻译结果发音地址, 翻译成功一定存在
         String tSpeakUrl = object.getString("tSpeakUrl");
-        word.settSpeakUrl(tSpeakUrl);
+        word.setTSpeakUrl(tSpeakUrl);
 
         // 源语言发音地址, 翻译成功一定存在
         String speakUrl = object.getString("speakUrl");

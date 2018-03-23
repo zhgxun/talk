@@ -1,7 +1,5 @@
 package com.github.zhgxun.models;
 
-import java.sql.Date;
-
 /**
  * 图书
  */
