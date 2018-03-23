@@ -1,8 +1,5 @@
 package com.github.zhgxun.lib;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 /**
  * 单词类库
  */
@@ -12,9 +9,6 @@ public class WordLib {
      * 表名前缀
      */
     private final static String baseTableName = "words";
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     /**
      * 生成一张新表
@@ -44,7 +38,6 @@ public class WordLib {
                 "    KEY `query`(`query`)" +
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='单词管理表模板, 具体的单词按书本来编排, 一本书一个表';";
         String sql = String.format(template, baseTableName, number);
-        jdbcTemplate.execute(sql);
     }
 
     /**
@@ -64,15 +57,13 @@ public class WordLib {
      * @param query  单词, 当然也包括短语和句子, 一般不适用句子, 如需要句子请去搜索引擎查找直接翻译
      * @return 单词是否存在
      */
-    public boolean haveOne(Integer number, String query) {
-        try {
-            String sql = String.format("SELECT id FROM %s WHERE query = ?", tableName(number));
-            Integer id = jdbcTemplate.queryForObject(sql, ((rs, rowNum) -> rs.getInt("id")), query);
-            return id >= 1;
-        } catch (NullPointerException e) {
-            // 不处理异常
-        }
-
-        return false;
-    }
+//    public boolean haveOne(Integer number, String query) {
+//        try {
+//            String sql = String.format("SELECT id FROM %s WHERE query = ?", tableName(number));
+//        } catch (NullPointerException e) {
+//            // 不处理异常
+//        }
+//
+//        return false;
+//    }
 }
