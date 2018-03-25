@@ -5,7 +5,7 @@ package com.github.zhgxun.models;
  */
 public class Book {
 
-    private Integer id;
+    private long id;
 
     /**
      * 编号, 用于生成该书对应的单词表, 该编号需要唯一
@@ -36,11 +36,11 @@ public class Book {
 
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

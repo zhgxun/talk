@@ -20,7 +20,7 @@ public class WordLib {
      *
      * @param number 编号
      */
-    public void addTable(Integer number) throws SQLException {
+    public static void addTable(Integer number) throws SQLException {
         // 单词表模板, 每本书或文档有编号, 根据编号对应一张单词表
         String template = "" +
                 "CREATE TABLE IF NOT EXISTS `%s_%s` (" +
@@ -74,7 +74,7 @@ public class WordLib {
      * @param query  单词, 当然也包括短语和句子, 一般不适用句子, 如需要句子请去搜索引擎查找直接翻译
      * @return 单词是否存在
      */
-    public boolean haveOne(Integer number, String query) throws SQLException {
+    public static boolean haveOne(Integer number, String query) throws SQLException {
         String sql = String.format("SELECT id FROM %s WHERE query = ?", tableName(number));
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -94,7 +94,7 @@ public class WordLib {
      * @return 添加成功后的标识
      * @throws SQLException exception
      */
-    public long add(Integer number, Word word) throws SQLException {
+    public static long add(Integer number, Word word) throws SQLException {
         String sql = String.format("INSERT INTO %s(`query`, `translation`, `phonetic`, `us-phonetic`, `uk-phonetic`, `us-speech`, `uk-speech`, `explains`, `web`, `l`, `dict`, `webdict`, `tSpeakUrl`, `speakUrl`, `example`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tableName(number));
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {

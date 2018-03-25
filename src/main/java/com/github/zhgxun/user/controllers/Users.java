@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 普通用户管理
  */
+@RequestMapping("/users")
 @RestController
 public class Users {
 
@@ -36,8 +37,8 @@ public class Users {
      * @param openId 开放平台标识
      * @return {@link UserInfo} 普通用户信息
      */
-    @RequestMapping("/userinfo")
-    public UserInfo userInfo(@RequestParam(value = "openId") String openId) {
+    @RequestMapping("/info")
+    public UserInfo info(@RequestParam(value = "openId") String openId) {
         try {
             return UsersLib.info(openId);
         } catch (Exception e) {

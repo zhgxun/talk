@@ -19,7 +19,7 @@ public class BookLib {
      * @return 编号, 不依赖于主键, 主键可能被迁移或表发生更改时发生变化
      * @throws SQLException exception
      */
-    public Integer getNumber() throws SQLException {
+    public static Integer getNumber() throws SQLException {
         String sql = "SELECT MAX(number) max FROM books";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -41,7 +41,7 @@ public class BookLib {
      * @return boolean
      * @throws SQLException exception
      */
-    public boolean haveOne(String title) throws SQLException {
+    public static boolean haveOne(String title) throws SQLException {
         String sql = "SELECT id FROM books WHERE title = ?";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -60,7 +60,7 @@ public class BookLib {
      * @return 新增id, 正确时新增id >= 1
      * @throws SQLException exception
      */
-    public long add(Book book) throws SQLException {
+    public static long add(Book book) throws SQLException {
         String sql = "INSERT INTO `books`(`number`, `title`, `author`, `publisher`, `date`) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -72,6 +72,33 @@ public class BookLib {
                 ps.executeUpdate();
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     return rs.next() ? rs.getLong(1) : 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据图书名称获取图书信息
+     *
+     * @param title 图书名称
+     * @return {@link Book} 图书对象
+     * @throws SQLException exception
+     */
+    public static Book getBookInfo(String title) throws SQLException {
+        String sql = "SELECT id, number, title, author, publisher, date FROM books WHERE title = ?";
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, title.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    Book book = new Book();
+                    while (rs.next()) {
+                        book.setId(rs.getLong("id"));
+                        book.setNumber(rs.getInt("number"));
+                        book.setTitle(rs.getString("title"));
+                        book.setPublisher(rs.getString("publisher"));
+                        book.setDate(rs.getString("date"));
+                    }
+                    return book;
                 }
             }
         }
