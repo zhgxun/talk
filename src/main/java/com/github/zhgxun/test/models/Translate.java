@@ -1,6 +1,7 @@
 package com.github.zhgxun.test.models;
 
 public class Translate {
+
     private final long id;
     private final String content;
 

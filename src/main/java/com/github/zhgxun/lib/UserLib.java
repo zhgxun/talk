@@ -11,6 +11,11 @@ import org.json.JSONObject;
 public class UserLib {
 
     /**
+     * 小程序安全加密key
+     */
+    public final static String sessionKey = "3a776ead15a4023f1f454c16cf068073";
+
+    /**
      * 生成解密后的用户对象
      *
      * @param json 解密后的json字符串

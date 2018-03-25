@@ -4,6 +4,7 @@ import com.github.zhgxun.words.lib.TranslateLib;
 import com.github.zhgxun.models.Word;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,7 +17,7 @@ public class Translate {
      * @return 翻译结果json格式值
      */
     @RequestMapping("/translate")
-    public Word translate(String content) {
+    public Word translate(@RequestParam(value = "content") String content) {
         TranslateLib translateLib = new TranslateLib();
         return translateLib.response(content);
     }
