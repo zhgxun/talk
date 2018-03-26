@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 图书类库
@@ -99,6 +101,63 @@ public class BookLib {
                         book.setDate(rs.getString("date"));
                     }
                     return book;
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据图书ID获取图书信息
+     *
+     * @param id 图书ID
+     * @return {@link Book} 图书对象
+     * @throws SQLException exception
+     */
+    public static Book getBookInfo(long id) throws SQLException {
+        String sql = "SELECT id, number, title, author, publisher, date FROM books WHERE id = ?";
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setLong(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    Book book = new Book();
+                    while (rs.next()) {
+                        book.setId(rs.getLong("id"));
+                        book.setNumber(rs.getInt("number"));
+                        book.setTitle(rs.getString("title"));
+                        book.setPublisher(rs.getString("publisher"));
+                        book.setDate(rs.getString("date"));
+                    }
+                    return book;
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据图书ID列表获取图书信息
+     *
+     * @param numbers 图书ID列表
+     * @return {@link Book} 图书对象
+     * @throws SQLException exception
+     */
+    public static List<Book> getList(String numbers) throws SQLException {
+        String sql = "SELECT id, number, title, author, publisher, date FROM books WHERE id IN (?)";
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, numbers);
+                try (ResultSet rs = ps.executeQuery()) {
+                    List<Book> books = new ArrayList<>();
+                    while (rs.next()) {
+                        Book book = new Book();
+                        book.setId(rs.getLong("id"));
+                        book.setNumber(rs.getInt("number"));
+                        book.setTitle(rs.getString("title"));
+                        book.setAuthor(rs.getString("author"));
+                        book.setPublisher(rs.getString("publisher"));
+                        book.setDate(rs.getString("date"));
+                        books.add(book);
+                    }
+                    return books;
                 }
             }
         }

@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户图书关联关系
@@ -50,6 +52,33 @@ public class UserBooksLib {
                 ps.executeUpdate();
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     return rs.next() ? rs.getLong(1) : 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据开放平台标识获取用户的图书信息
+     *
+     * @param openId 开放平台标识
+     * @return {@link UserBooks} 用户的图书列表
+     * @throws SQLException exception
+     */
+    public static List<UserBooks> getList(String openId) throws SQLException {
+        String sql = "SELECT id, open_id, number FROM user_books WHERE open_id = ?";
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, openId.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    List<UserBooks> list = new ArrayList<>();
+                    while (rs.next()) {
+                        UserBooks userBooks = new UserBooks();
+                        userBooks.setId(rs.getLong("id"));
+                        userBooks.setOpenId(rs.getString("open_id"));
+                        userBooks.setNumber(rs.getInt("number"));
+                        list.add(userBooks);
+                    }
+                    return list;
                 }
             }
         }

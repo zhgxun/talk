@@ -5,11 +5,10 @@ import com.github.zhgxun.lib.UserBooksLib;
 import com.github.zhgxun.lib.UserLib;
 import com.github.zhgxun.lib.WordLib;
 import com.github.zhgxun.models.Book;
-import com.github.zhgxun.models.User;
 import com.github.zhgxun.models.UserBooks;
-import com.github.zhgxun.util.Aes;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 图书管理
@@ -17,14 +16,44 @@ import java.sql.SQLException;
 public class BooksLib {
 
     /**
-     * 图书信息
+     * 获取用户图书列表
      *
-     * @param title 图书标题
+     * @param encrypt 加密用户信息
+     * @param iv      初始向量
      * @return {@link Book} 图书信息
      * @throws SQLException exception
      */
-    public static Book info(String title) throws SQLException {
-        return BookLib.getBookInfo(title);
+    public static List<Book> books(String encrypt, String iv) throws SQLException {
+        // 1. 获取开放平台标识
+        String openId = UserLib.getOpenId(encrypt, iv);
+        if (openId == null) {
+            return null;
+        }
+
+        // 2. 获取用户图书关联信息
+        String numbers = "";
+        List<UserBooks> userBooks = UserBooksLib.getList(openId);
+        for (UserBooks books : userBooks) {
+            String number = String.valueOf(books.getNumber());
+            numbers = "," + number;
+        }
+        if (numbers.length() <= 0) {
+            return null;
+        }
+
+        // 3. 获取用户图书信息
+        return BookLib.getList(numbers);
+    }
+
+    /**
+     * 图书信息
+     *
+     * @param id 图书ID
+     * @return {@link Book} 图书信息
+     * @throws SQLException exception
+     */
+    public static Book info(long id) throws SQLException {
+        return BookLib.getBookInfo(id);
     }
 
     /**
@@ -49,7 +78,7 @@ public class BooksLib {
         // 2. 获取图书编号
         int number = BookLib.getNumber();
 
-        // 3. 是否已有图书存在
+        // 3. 图书是否已经存在
         if (BookLib.haveOne(title.trim())) {
             return true;
         }
@@ -61,35 +90,59 @@ public class BooksLib {
         book.setAuthor(author.trim());
         book.setPublisher(publisher.trim());
         book.setDate(date.trim());
-        BookLib.add(book);
-
-        // 5. 添加图书用户关联关系
-        if (!UserBooksLib.haveOne(openId, number)) {
-            UserBooks userBooks = new UserBooks();
-            userBooks.setOpenId(openId);
-            userBooks.setNumber(number);
-            UserBooksLib.add(userBooks);
+        if (BookLib.add(book) <= 0) {
+            return false;
         }
 
-        // 4. 新建图书单词表
+        // 5. 图书用户关联关系已经存在
+        if (UserBooksLib.haveOne(openId, number)) {
+            return true;
+        }
+
+        // 6. 添加图书用户关联关系
+        UserBooks userBooks = new UserBooks();
+        userBooks.setOpenId(openId);
+        userBooks.setNumber(number);
+        if (UserBooksLib.add(userBooks) <= 0) {
+            return false;
+        }
+
+        // 7. 新建图书单词表
         WordLib.addTable(number);
 
         return true;
     }
 
-    public static boolean delete(long id, String encrypt, String iv) {
-        // 获取用户开放平台标识
+    /**
+     * 删除图书
+     *
+     * @param id      图书ID
+     * @param encrypt 加密用户信息
+     * @param iv      初始向量
+     * @return 删除标识
+     * @throws SQLException exception
+     */
+    public static boolean delete(long id, String encrypt, String iv) throws SQLException {
+        // 1. 获取用户开放平台标识
         String openId = UserLib.getOpenId(encrypt, iv);
         if (openId == null) {
             return false;
         }
 
-        // 删除用户图书的关联关系
+        // 2. 查询图书信息
+        Book book = BookLib.getBookInfo(id);
 
+        // 3. 获取图书编号
+        int number = book.getNumber();
 
-        // 删除这本书
+        // 4. 删除图书
+        BookLib.delete(id);
 
-        // 删除该本书的单词表
+        // 5. 删除用户图书的关联关系
+        UserBooksLib.delete(openId, number);
+
+        //@todo 6. 删除该本书的单词表 单词表暂时不删除
+
         return true;
     }
 }
