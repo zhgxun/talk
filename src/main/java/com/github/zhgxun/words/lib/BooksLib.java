@@ -31,15 +31,17 @@ public class BooksLib {
         }
 
         // 2. 获取用户图书关联信息
-        String numbers = "";
+        StringBuilder builder = new StringBuilder();
         List<UserBooks> userBooks = UserBooksLib.getList(openId);
         for (UserBooks books : userBooks) {
-            String number = String.valueOf(books.getNumber());
-            numbers = "," + number;
+            builder.append(String.valueOf(books.getNumber()));
+            builder.append(",");
         }
-        if (numbers.length() <= 0) {
+        if (builder.length() <= 0) {
             return null;
         }
+        String numberStr = builder.toString();
+        String numbers = numberStr.substring(0, numberStr.length() - 1);
 
         // 3. 获取用户图书信息
         return BookLib.getList(numbers);
@@ -136,10 +138,14 @@ public class BooksLib {
         int number = book.getNumber();
 
         // 4. 删除图书
-        BookLib.delete(id);
+        if (!BookLib.delete(id)) {
+            return false;
+        }
 
         // 5. 删除用户图书的关联关系
-        UserBooksLib.delete(openId, number);
+        if (!UserBooksLib.delete(openId, number)) {
+            return false;
+        }
 
         //@todo 6. 删除该本书的单词表 单词表暂时不删除
 
