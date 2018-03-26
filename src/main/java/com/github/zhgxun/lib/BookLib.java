@@ -21,12 +21,12 @@ public class BookLib {
      * @return 编号, 不依赖于主键, 主键可能被迁移或表发生更改时发生变化
      * @throws SQLException exception
      */
-    public static Integer getNumber() throws SQLException {
+    public static int getNumber() throws SQLException {
         String sql = "SELECT MAX(number) max FROM books";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 try (ResultSet rs = ps.executeQuery()) {
-                    Integer id = 0;
+                    int id = 0;
                     while (rs.next()) {
                         id = rs.getInt("max");
                     }

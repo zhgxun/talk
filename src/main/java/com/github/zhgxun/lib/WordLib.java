@@ -20,7 +20,7 @@ public class WordLib {
      *
      * @param number 编号
      */
-    public static void addTable(Integer number) throws SQLException {
+    public static void addTable(int number) throws SQLException {
         // 单词表模板, 每本书或文档有编号, 根据编号对应一张单词表
         String template = "" +
                 "CREATE TABLE IF NOT EXISTS `%s_%s` (" +
@@ -47,12 +47,28 @@ public class WordLib {
         // 新建表
         Connection connection = Db.connection();
         Statement statement = connection.createStatement();
-        long id = statement.executeLargeUpdate(sql);
+        long id = statement.executeUpdate(sql);
         if (id >= 1) {
             System.out.println("新建表成功");
         } else {
             System.out.println("新建表失败");
         }
+        statement.close();
+        connection.close();
+    }
+
+    /**
+     * 删除该图书编号生成的单词表
+     *
+     * @param number 图书编号
+     * @throws SQLException exception
+     */
+    public static void deleteTable(int number) throws SQLException {
+        String template = "DROP TABLE IF EXISTS %s_%d";
+        String sql = String.format(template, baseTableName, number);
+        Connection connection = Db.connection();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
         statement.close();
         connection.close();
     }

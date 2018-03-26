@@ -147,7 +147,8 @@ public class BooksLib {
             return false;
         }
 
-        //@todo 6. 删除该本书的单词表 单词表暂时不删除
+        // 6. 删除该本书对应的单词表
+        WordLib.deleteTable(number);
 
         return true;
     }

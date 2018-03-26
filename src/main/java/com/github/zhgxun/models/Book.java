@@ -10,7 +10,7 @@ public class Book {
     /**
      * 编号, 用于生成该书对应的单词表, 该编号需要唯一
      */
-    private Integer number;
+    private int number;
 
     /**
      * 书名
@@ -44,11 +44,11 @@ public class Book {
         this.id = id;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
