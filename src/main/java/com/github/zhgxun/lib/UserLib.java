@@ -3,6 +3,7 @@ package com.github.zhgxun.lib;
 import com.github.zhgxun.models.User;
 import com.github.zhgxun.models.WaterMark;
 
+import com.github.zhgxun.util.Aes;
 import org.json.JSONObject;
 
 /**
@@ -66,5 +67,22 @@ public class UserLib {
         user.setWaterMark(waterMark);
 
         return user;
+    }
+
+    /**
+     * 获取用户开放平台标识
+     *
+     * @param encrypt 加密数据
+     * @param iv      初始向量
+     * @return 开放平台标识
+     */
+    public static String getOpenId(String encrypt, String iv) {
+        String decrypt = Aes.decrypt(sessionKey, encrypt, iv);
+        if (decrypt == null) {
+            return null;
+        }
+        User user = getUser(decrypt);
+
+        return user.getOpenId();
     }
 }

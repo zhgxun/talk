@@ -103,4 +103,22 @@ public class BookLib {
             }
         }
     }
+
+    /**
+     * 删除图书
+     *
+     * @param id 图书主键
+     * @return 删除标识
+     * @throws SQLException exception
+     */
+    public static boolean delete(long id) throws SQLException {
+        String sql = "DELETE FROM books WHERE id = ?";
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setLong(1, id);
+                ps.executeUpdate();
+                return true;
+            }
+        }
+    }
 }

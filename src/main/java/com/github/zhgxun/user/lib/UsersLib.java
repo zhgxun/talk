@@ -42,15 +42,4 @@ public class UsersLib {
 
         return UserInfoLib.add(userInfo) >= 1;
     }
-
-    /**
-     * 通过开放平台标识获取用户信息
-     *
-     * @param openId 开放平台标识
-     * @return {@link UserInfo} 普通用户对象
-     * @throws SQLException exception
-     */
-    public static UserInfo info(String openId) throws SQLException {
-        return UserInfoLib.getUserInfo(openId);
-    }
 }

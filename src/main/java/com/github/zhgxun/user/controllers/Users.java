@@ -1,6 +1,5 @@
 package com.github.zhgxun.user.controllers;
 
-import com.github.zhgxun.models.UserInfo;
 import com.github.zhgxun.user.lib.UsersLib;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,21 +28,5 @@ public class Users {
             e.printStackTrace();
         }
         return false;
-    }
-
-    /**
-     * 通过开放平台标识获取用户信息
-     *
-     * @param openId 开放平台标识
-     * @return {@link UserInfo} 普通用户信息
-     */
-    @RequestMapping("/info")
-    public UserInfo info(@RequestParam(value = "openId") String openId) {
-        try {
-            return UsersLib.info(openId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
