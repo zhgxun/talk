@@ -1,9 +1,5 @@
 package com.github.zhgxun.test.controller;
 
-import com.github.zhgxun.lib.UserLib;
-import com.github.zhgxun.models.User;
-import com.github.zhgxun.util.Aes;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -41,8 +37,6 @@ public class AesTest {
         String encrypt = "CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZMQmRzooG2xrDcvSnxIMXFufNstNGTyaGS9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+3hVbJSRgv+4lGOETKUQz6OYStslQ142dNCuabNPGBzlooOmB231qMM85d2/fV6ChevvXvQP8Hkue1poOFtnEtpyxVLW1zAo6/1Xx1COxFvrc2d7UL/lmHInNlxuacJXwu0fjpXfz/YqYzBIBzD6WUfTIF9GRHpOn/Hz7saL8xz+W//FRAUid1OksQaQx4CMs8LOddcQhULW4ucetDf96JcR3g0gfRK4PC7E/r7Z6xNrXd2UIeorGj5Ef7b1pJAYB6Y5anaHqZ9J6nKEBvB4DnNLIVWSgARns/8wR2SiRS7MNACwTyrGvt9ts8p12PKFdlqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYVoKlaRv85IfVunYzO0IKXsyl7JCUjCpoG20f0a04COwfneQAGGwd5oa+T8yO5hzuyDb/XcxxmK01EpqOyuxINew==";
         // 初始向量Iv(Initialization Vector), 使用除ECB以外的其他加密模式均需要传入一个初始向量, 其大小与块大小相等, AES块大小是128bit, 所以Iv的长度是16字节, 初始向量可以加强算法强度
         String iv = "r7BXXKkLb8qrSNn05n0qiA==";
-
-        userInfo(sessionKey, encrypt, iv);
     }
 
     // 解析加密字符串
@@ -64,20 +58,5 @@ public class AesTest {
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
             e.printStackTrace();
         }
-    }
-
-    // 解析用户信息
-    private static void userInfo(String sessionKey, String encrypt, String iv) {
-        String decrypt = Aes.decrypt(sessionKey, encrypt, iv);
-        if (decrypt == null) {
-            System.out.println("无法解密");
-            System.exit(0);
-        }
-
-        // 获取用户信息
-        User user = UserLib.getUser(decrypt);
-        System.out.println("用户昵称: " + user.getNickName());
-        System.out.println("用户标识: " + user.getOpenId());
-        System.out.println("用户水印: " + user.getWaterMark().getAppId());
     }
 }

@@ -18,16 +18,16 @@ public class UserBooksLib {
     /**
      * 用户是否已经关联了该图书
      *
-     * @param openId 用户开放平台标识
+     * @param userId 用户开放平台标识
      * @param number 图书编号
      * @return 是否已关联图书
      * @throws SQLException exception
      */
-    public static boolean haveOne(String openId, int number) throws SQLException {
-        String sql = "SELECT id FROM user_books WHERE open_id = ? AND number = ?";
+    public static boolean haveOne(long userId, int number) throws SQLException {
+        String sql = "SELECT id FROM user_books WHERE user_id = ? AND number = ?";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, openId.trim());
+                ps.setLong(1, userId);
                 ps.setInt(2, number);
                 try (ResultSet rs = ps.executeQuery()) {
                     return rs.next();
@@ -44,10 +44,10 @@ public class UserBooksLib {
      * @throws SQLException exception
      */
     public static long add(UserBooks userBooks) throws SQLException {
-        String sql = "INSERT INTO `user_books`(`open_id`, `number`) VALUES (?, ?)";
+        String sql = "INSERT INTO `user_books`(`user_id`, `number`) VALUES (?, ?)";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, userBooks.getOpenId());
+                ps.setLong(1, userBooks.getUserId());
                 ps.setInt(2, userBooks.getNumber());
                 ps.executeUpdate();
                 try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -60,21 +60,21 @@ public class UserBooksLib {
     /**
      * 根据开放平台标识获取用户的图书信息
      *
-     * @param openId 开放平台标识
+     * @param userId 开放平台标识
      * @return {@link UserBooks} 用户的图书列表
      * @throws SQLException exception
      */
-    public static List<UserBooks> getList(String openId) throws SQLException {
-        String sql = "SELECT id, open_id, number FROM user_books WHERE open_id = ?";
+    public static List<UserBooks> getList(long userId) throws SQLException {
+        String sql = "SELECT id, user_id, number FROM user_books WHERE user_id = ?";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, openId.trim());
+                ps.setLong(1, userId);
                 try (ResultSet rs = ps.executeQuery()) {
                     List<UserBooks> list = new ArrayList<>();
                     while (rs.next()) {
                         UserBooks userBooks = new UserBooks();
                         userBooks.setId(rs.getLong("id"));
-                        userBooks.setOpenId(rs.getString("open_id"));
+                        userBooks.setUserId(rs.getLong("user_id"));
                         userBooks.setNumber(rs.getInt("number"));
                         list.add(userBooks);
                     }
@@ -87,16 +87,16 @@ public class UserBooksLib {
     /**
      * 删除用户图书关联信息
      *
-     * @param openId 用户开放平台标识
+     * @param userId 用户开放平台标识
      * @param number 图书编号
      * @return 删除关联关系
      * @throws SQLException exception
      */
-    public static boolean delete(String openId, int number) throws SQLException {
-        String sql = "DELETE FROM user_books WHERE open_id = ? AND number = ?";
+    public static boolean delete(long userId, int number) throws SQLException {
+        String sql = "DELETE FROM user_books WHERE user_id = ? AND number = ?";
         try (Connection connection = Db.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, openId.trim());
+                ps.setLong(1, userId);
                 ps.setInt(2, number);
                 ps.executeUpdate();
                 return true;

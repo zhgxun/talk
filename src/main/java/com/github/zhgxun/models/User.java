@@ -1,142 +1,43 @@
 package com.github.zhgxun.models;
 
 /**
- * 微信用户对象
+ * 用户对象
  */
 public class User {
 
-    /**
-     * 微信用户身份标识ID
-     */
-    private String openId;
+    private long id;
 
     /**
-     * 昵称
+     * 用户昵称
      */
-    private String nickName;
+    private String name;
 
     /**
-     * 性别 0: 未知, 1: 男, 2: 女
+     * 密码
      */
-    private int gender;
+    private String password;
 
-    /**
-     * 语言
-     */
-    private String language;
-
-    /**
-     * 城市
-     */
-    private String city;
-
-    /**
-     * 省
-     */
-    private String province;
-
-    /**
-     * 国家
-     */
-    private String country;
-
-    /**
-     * 头像地址
-     */
-    private String avatarUrl;
-
-    /**
-     * 联合ID
-     */
-    private String unionId;
-
-    /**
-     * 水印
-     * {@link WaterMark}
-     */
-    private WaterMark waterMark;
-
-    public User() {
-
+    public long getId() {
+        return id;
     }
 
-    public String getOpenId() {
-        return openId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public String getName() {
+        return name;
     }
 
-    public String getNickName() {
-        return nickName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public String getPassword() {
+        return password;
     }
 
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(String unionId) {
-        this.unionId = unionId;
-    }
-
-    public WaterMark getWaterMark() {
-        return waterMark;
-    }
-
-    public void setWaterMark(WaterMark waterMark) {
-        this.waterMark = waterMark;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -19,14 +19,12 @@ public class Books {
     /**
      * 获取图书列表
      *
-     * @param encrypt 加密的用户信息
-     * @param iv      初始向量
      * @return {@link Book} 图书列表
      */
     @RequestMapping("/books")
-    public List<Book> books(@RequestParam(value = "encrypt") String encrypt, @RequestParam(value = "iv") String iv) {
+    public List<Book> books() {
         try {
-            return BooksLib.books(encrypt, iv);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,9 +57,9 @@ public class Books {
      * @return 添加结果
      */
     @RequestMapping("/add")
-    public boolean add(@RequestParam(value = "title") String title, @RequestParam(value = "author") String author, @RequestParam(value = "publisher") String publisher, @RequestParam(value = "date") String date, @RequestParam(value = "encrypt") String encrypt, @RequestParam(value = "iv") String iv) {
+    public boolean add(@RequestParam(value = "title") String title, @RequestParam(value = "author") String author, @RequestParam(value = "publisher") String publisher, @RequestParam(value = "date") String date) {
         try {
-            return BooksLib.add(title, author, publisher, date, encrypt, iv);
+            return BooksLib.add(title, author, publisher, date);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,14 +70,12 @@ public class Books {
      * 删除图书
      *
      * @param id      图书ID
-     * @param encrypt 加密用户信息
-     * @param iv      初始向量
      * @return 删除结果
      */
     @RequestMapping("/delete")
-    public boolean delete(@RequestParam(value = "id") long id, @RequestParam(value = "encrypt") String encrypt, @RequestParam(value = "iv") String iv) {
+    public boolean delete(@RequestParam(value = "id") long id) {
         try {
-            return BooksLib.delete(id, encrypt, iv);
+            return BooksLib.delete(id);
         } catch (Exception e) {
             e.printStackTrace();
         }

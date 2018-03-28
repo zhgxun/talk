@@ -1,15 +1,10 @@
 package com.github.zhgxun.test.controller;
 
+import com.github.zhgxun.util.Md5;
+
 public class Test {
 
     public static void main(String args[]) {
-        StringBuilder builder = new StringBuilder();
-        int[] numbers = {1, 2, 3, 4, 5};
-        for (int i : numbers) {
-            builder.append(String.valueOf(i));
-            builder.append(",");
-        }
-        String s = builder.toString();
-        System.out.println(s.substring(0, s.length() - 1));
+        System.out.println(Md5.md5("TCg@6^kxReMzJc!nsd^edUtrpZC9nD0O"));
     }
 }

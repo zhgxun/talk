@@ -11,9 +11,9 @@ public class UserBooks {
     private long id;
 
     /**
-     * 开放平台标识
+     * 用户ID
      */
-    private String openId;
+    private long userId;
 
     /**
      * 图书编号
@@ -28,12 +28,12 @@ public class UserBooks {
         this.id = id;
     }
 
-    public String getOpenId() {
-        return openId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public int getNumber() {

@@ -1,10 +1,10 @@
 package com.github.zhgxun.lib;
 
 import com.github.zhgxun.models.User;
-import com.github.zhgxun.models.WaterMark;
+import com.github.zhgxun.util.Db;
+import com.github.zhgxun.util.Log;
 
-import com.github.zhgxun.util.Aes;
-import org.json.JSONObject;
+import java.sql.*;
 
 /**
  * 用户信息
@@ -12,77 +12,101 @@ import org.json.JSONObject;
 public class UserLib {
 
     /**
-     * 小程序安全加密key
+     * 加密用的盐
      */
-    public final static String sessionKey = "3a776ead15a4023f1f454c16cf068073";
+    public final static String salt = "TCg@6^kxReMzJc!nsd^edUtrpZC9nD0O";
 
     /**
-     * 生成解密后的用户对象
+     * 用户是否已经存在
      *
-     * @param json 解密后的json字符串
-     * @return {@link User } 微信用户信息对象
+     * @param name 昵称
+     * @return 是否存在
+     * @throws SQLException exception
      */
-    public static User getUser(String json) {
-        User user = new User();
-
-        JSONObject object = new JSONObject(json);
-
-        String openId = object.getString("openId");
-        user.setOpenId(openId);
-
-        String nickName = object.getString("nickName");
-        user.setNickName(nickName);
-
-        int gender = object.getInt("gender");
-        user.setGender(gender);
-
-        String language = object.getString("language");
-        user.setLanguage(language);
-
-        String city = object.getString("city");
-        user.setCity(city);
-
-        String province = object.getString("province");
-        user.setProvince(province);
-
-        String country = object.getString("country");
-        user.setCountry(country);
-
-        String avatarUrl = object.getString("avatarUrl");
-        user.setAvatarUrl(avatarUrl);
-
-        String unionId = object.getString("unionId");
-        user.setUnionId(unionId);
-
-        WaterMark waterMark = new WaterMark();
-
-        JSONObject mark = object.getJSONObject("watermark");
-
-        int timestamp = mark.getInt("timestamp");
-        waterMark.setTimestamp(timestamp);
-
-        String appId = mark.getString("appid");
-        waterMark.setAppId(appId);
-
-        user.setWaterMark(waterMark);
-
-        return user;
+    public static boolean haveOne(String name) throws SQLException {
+        String sql = "SELECT id FROM users WHERE name = ?";
+        Log.logger.info("UserLib::haveOne, sql= " + sql + ", name= " + name);
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, name.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    return rs.next();
+                }
+            }
+        }
     }
 
     /**
-     * 获取用户开放平台标识
+     * 添加用户信息
      *
-     * @param encrypt 加密数据
-     * @param iv      初始向量
-     * @return 开放平台标识
+     * @param user {@link User} 用户对象
+     * @return 添加后的记录ID
+     * @throws SQLException exception
      */
-    public static String getOpenId(String encrypt, String iv) {
-        String decrypt = Aes.decrypt(sessionKey, encrypt, iv);
-        if (decrypt == null) {
-            return null;
+    public static long add(User user) throws SQLException {
+        String sql = "INSERT INTO `users`(`name`, `password`) VALUES (?, ?)";
+        Log.logger.info("UserLib::add, sql= " + sql + ", name= " + user.getName() + ", password= " + user.getPassword());
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getPassword());
+                ps.executeUpdate();
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    return rs.next() ? rs.getLong(1) : 0;
+                }
+            }
         }
-        User user = getUser(decrypt);
+    }
 
-        return user.getOpenId();
+    /**
+     * 通过用户ID获取用户信息
+     *
+     * @param id 用户ID
+     * @return {@link User} 用户对象
+     * @throws SQLException exception
+     */
+    public static User info(long id) throws SQLException {
+        String sql = "SELECT id, name, password FROM users WHERE id = ?";
+        Log.logger.info("UserLib::info, sql= " + sql + ", id= " + id);
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setLong(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    User user = new User();
+                    while (rs.next()) {
+                        user.setId(rs.getLong("id"));
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                    }
+                    return user;
+                }
+            }
+        }
+    }
+
+    /**
+     * 通过用户昵称获取用户信息
+     *
+     * @param name 用户昵称
+     * @return {@link User} 用户对象
+     * @throws SQLException exception
+     */
+    public static User info(String name) throws SQLException {
+        String sql = "SELECT id, name, password FROM users WHERE name = ?";
+        Log.logger.info("UserLib::info, sql= " + sql + ", id= " + name);
+        try (Connection connection = Db.connection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, name.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    User user = new User();
+                    while (rs.next()) {
+                        user.setId(rs.getLong("id"));
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                    }
+                    return user;
+                }
+            }
+        }
     }
 }
