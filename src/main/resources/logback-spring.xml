@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 根节点, 默认值scan="true" scanPeriod="60 seconds" debug="false -->
 <configuration>
+
     <!-- 日志目录 -->
     <property name="LOG_DIR" value="log"/>
+
     <!-- 控制台输出日志格式 -->
     <property name="PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [${EM_APP:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] ${PID:- } --- [%t] %-40.40logger{39} : %m%n"/>
+
     <!-- 日志级别定义 @link ch.qos.logback.classic.Level -->
     <!-- 负责写日志的组件, 它有两个必要属性name和class, name指定appender名称, class指定appender的全限定名 -->
     <!-- FileAppender 把日志添加到文件 -->
@@ -28,7 +31,7 @@
             <!-- 控制保留的归档文件的最大数量，超出数量就删除旧文件, 单位为天 -->
             <maxHistory>2</maxHistory>
             <maxFileSize>200MB</maxFileSize>
-            <totalSizeCap>2GB</totalSizeCap>
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -53,7 +56,7 @@
             <fileNamePattern>${LOG_DIR}/%d{dd,aux}/warn.log-%d{yyyy-MM-dd-HH}-%i</fileNamePattern>
             <maxHistory>2</maxHistory>
             <maxFileSize>200MB</maxFileSize>
-            <totalSizeCap>5GB</totalSizeCap>
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
     </appender>
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -69,9 +72,10 @@
             <fileNamePattern>${LOG_DIR}/%d{dd,aux}/error.log-%d{yyyy-MM-dd-HH}-%i</fileNamePattern>
             <maxHistory>2</maxHistory>
             <maxFileSize>200MB</maxFileSize>
-            <totalSizeCap>5GB</totalSizeCap>
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
     </appender>
+
     <!-- 日志级别, 默认整个项目 -->
     <root level="INFO">
         <appender-ref ref="INFO"/>

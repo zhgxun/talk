@@ -1,9 +1,7 @@
 # 配置中心
-# 服务端口
-server:
-  port: 8080
+
+# 激活级别
 spring:
-  # 激活环境
   profiles:
     active: dev
 

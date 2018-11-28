@@ -1,4 +1,4 @@
-package com.github.zhgxun;
+package com.github.zhgxun.talk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
