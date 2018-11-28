@@ -74,7 +74,6 @@ public class AipSpeechUtil {
         // 2. 片段语音合成
         int i = 1;
         for (String s : texts) {
-            // 合成到合并目录中, 需要指定书本或者文章作为父目录, 便于该目录下的文件都可以合并为一个目标文件
             String fileName = String.format("%s/audio_%s.%s", origin, i++, Constant.AUDIO_EXT);
             FileUtil.createFile(fileName);
             fragment(fileName, s, options);
@@ -83,9 +82,7 @@ public class AipSpeechUtil {
 
         // 3. 是否合并片段文件
         if (combine) {
-            // 调用系统命令直接合成即可
             String exec = String.format("cat %s/audio_*.%s >> %s", origin, Constant.AUDIO_EXT, dest);
-            // 注意命令执行方式书写形式
             String[] cmd = {"/bin/sh", "-c", exec};
             Runtime.getRuntime().exec(cmd);
         }

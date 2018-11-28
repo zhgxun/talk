@@ -13,12 +13,11 @@ public class FileUtil {
      *
      * @param fileName 文件名
      * @return 处理结果
-     * @throws IOException 创建失败
+     * @throws IOException 创建异常
      */
     public static boolean createFile(String fileName) throws IOException {
         File file = new File(fileName);
         if (!file.exists()) {
-            // 可能需要优先创建目录
             String path = file.getParent();
             File dir = new File(path);
             if (!dir.isDirectory() && dir.mkdirs()) {
