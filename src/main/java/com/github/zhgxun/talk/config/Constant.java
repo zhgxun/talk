@@ -17,9 +17,13 @@ public class Constant {
     public static final int CTP = 1;
 
     // 语音合成后的存放路径, 不可丢失, 相对路径需要存入数据库, 外部直接通过路径访问文件即可
-    public static final String BASE_DIR = "";
+    public static final String BASE_DIR = "audio";
+    // 处理完毕的文本目录
+    public static final String DONE_DIR = String.format("%s/%s", BASE_DIR, "done");
+    // 处理中的文件目录
+    public static final String MERGE_DIR = String.format("%s/%s", BASE_DIR, "merge");
     // 语音合成后的文件扩展名
-    public static final String SPEECH_EXT = "mp3";
+    public static final String AUDIO_EXT = "mp3";
 
     /**
      * 由于中文关系, 需要人为添加句号(。)来作为一句话的结束, 不严格区分是逗号还是句号, 目的是让语音合成后有一定的暂停
