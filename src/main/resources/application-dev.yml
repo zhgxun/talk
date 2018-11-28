@@ -1,9 +1,7 @@
 spring:
-  # MySQL 数据库
   datasource:
-    name: talk
-    url: jdbc:mysql://127.0.0.1:3306/talk?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    name: test
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
     password:
-    driver-class-name: com.mysql.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource

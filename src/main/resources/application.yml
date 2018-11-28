@@ -6,3 +6,7 @@ spring:
   # 激活环境
   profiles:
     active: dev
+
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml

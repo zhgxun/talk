@@ -1,9 +1,3 @@
-# Compiled class file
-*.class
-
-# Log file
-*.log
-
 # BlueJ files
 *.ctxt
 
@@ -22,7 +16,41 @@
 hs_err_pid*
 
 # disable commit directory
-.idea
 .DS_Store
 target
-talk.iml
+!.mvn/wrapper/maven-wrapper.jar
+*.iml
+output
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+log
+
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
