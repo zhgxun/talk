@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# 项目打包
+# 打包, 比原生调用 mvn 命令编译快速一些
 #
 
 export LANG=en_US.UTF-8
@@ -16,7 +16,7 @@ if [[ $? -eq 0 ]]; then
 fi
 
 if [[ -z "${MAVEN_BIN}" ]]; then
-    echo "maven not found!"
+    echo "mvnw not found!"
     exit 1
 fi
 

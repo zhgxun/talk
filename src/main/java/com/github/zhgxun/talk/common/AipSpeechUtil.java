@@ -62,17 +62,19 @@ public class AipSpeechUtil {
      * @param text    待生成语音的文本
      * @param options 可选设置
      * @param combine 是否进行片段语音文件合成一个文件
+     * @param base    基数值, 默认0即可
      * @return 语音合成后的目标文件
      */
     public static List<String> scatter(
-            String origin, String dest, String text, HashMap<String, Object> options, boolean combine) throws IOException {
+            String origin, String dest, String text, HashMap<String, Object> options, boolean combine, int base
+    ) throws IOException {
         List<String> target = new ArrayList<>();
 
         // 1. 打散合成语音
         List<String> texts = TextUtil.analysis(text);
 
         // 2. 片段语音合成
-        int i = 1;
+        int i = base + 1;
         for (String s : texts) {
             String fileName = String.format("%s/audio_%s.%s", origin, i++, Constant.AUDIO_EXT);
             FileUtil.createFile(fileName);
@@ -103,6 +105,6 @@ public class AipSpeechUtil {
         FileUtil.createFile(dest);
         String origin = String.format("%s/article", Constant.MERGE_DIR);
         FileUtil.deleteFolder(origin);
-        scatter(origin, dest, text, null, true);
+        scatter(origin, dest, text, null, true, 0);
     }
 }
