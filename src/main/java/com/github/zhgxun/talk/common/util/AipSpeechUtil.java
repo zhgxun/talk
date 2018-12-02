@@ -1,6 +1,5 @@
 package com.github.zhgxun.talk.common.util;
 
-
 import com.baidu.aip.speech.AipSpeech;
 import com.baidu.aip.speech.TtsResponse;
 import com.baidu.aip.util.Util;
