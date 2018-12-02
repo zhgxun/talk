@@ -89,14 +89,13 @@
         </dependency>
 
         <!--
-            https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor
+            https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-com.github.zhgxun.talk.common.processor
             注解处理器
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <artifactId>spring-boot-configuration-com.github.zhgxun.talk.common.processor</artifactId>
         </dependency>
-
 
         <!--
             单元测试相关

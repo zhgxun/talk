@@ -1,4 +1,5 @@
-package com.github.zhgxun.talk.common;
+package com.github.zhgxun.talk.common.util;
+
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,5 @@
-package com.github.zhgxun.talk.common;
+package com.github.zhgxun.talk.common.util;
+
 
 import com.github.zhgxun.talk.common.exception.LengthException;
 import com.github.zhgxun.talk.common.processor.impl.LineProcessor;
