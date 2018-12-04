@@ -11,4 +11,4 @@ logging:
 
 # mybatis包扫描
 mybatis:
-  config-location: classpath:mappers/*.xml
+  mapper-locations: classpath:mapper/*.xml
