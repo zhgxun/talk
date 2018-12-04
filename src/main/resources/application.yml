@@ -5,12 +5,10 @@ spring:
   profiles:
     active: dev
 
-  # 文件上传限制, 仅作者可用, 原则上不限制
-  servlet:
-    multipart:
-      max-file-size: 500M
-      max-request-size: 500M
-
 # 日志配置
 logging:
   config: classpath:logback-spring.xml
+
+# mybatis包扫描
+mybatis:
+  config-location: classpath:mappers/*.xml

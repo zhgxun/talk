@@ -26,13 +26,13 @@ ${MAVEN_BIN} -version 2>&1 | awk '/Apache Maven/ {
 }' >& /dev/null
 if [[ $? -ne 0 ]]; then
     echo "maven version must newer than 3.2.0"
-    exit 1
+    exit 2
 fi
 
 ${MAVEN_BIN} -U clean install -DskipTests
 if [[ $? -ne 0 ]]; then
     echo "compile error!"
-    exit 2
+    exit 3
 fi
 
 # packaging

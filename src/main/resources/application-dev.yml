@@ -1,7 +1,7 @@
 # 数据源配置
 spring:
   datasource:
-    name: test
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    name: talk
+    url: jdbc:mysql://127.0.0.1:3306/talk?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
     password:

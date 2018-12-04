@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zhgxun.talk.dao.CategoryDao">
+    <!--
+        相同的字段属性可以定义为SQL语句的一部分
+    -->
+    <sql id="columns">
+        id,
+        parent_id as "parentId",
+        name,
+        creator,
+        updater,
+        create_time as "createTime"
+        update_time as "updateTime"
+    </sql>
+
+    <select id="findOne" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM category
+        WHERE id = #{id}
+    </select>
+</mapper>

@@ -7,7 +7,7 @@
 
     <!-- 控制台输出日志格式 -->
     <property name="PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [${EM_APP:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] ${PID:- } --- [%t] %-40.40logger{39} : %m%n"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : %m%n"/>
 
     <!-- 日志级别定义 @link ch.qos.logback.classic.Level -->
     <!-- 负责写日志的组件, 它有两个必要属性name和class, name指定appender名称, class指定appender的全限定名 -->
