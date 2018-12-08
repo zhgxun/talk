@@ -1,11 +1,11 @@
 package com.github.zhgxun.talk.common.processor.impl;
 
-import com.github.zhgxun.talk.common.processor.Processor;
+import com.github.zhgxun.talk.common.processor.TextProcessor;
 
 /**
  * 单行文本过长的处理
  */
-public class LengthProcessor implements Processor {
+public class LengthTextProcessor implements TextProcessor {
 
     @Override
     public String process(String text) {

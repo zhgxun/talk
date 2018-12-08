@@ -1,8 +1,8 @@
 package com.github.zhgxun.talk.common.util;
 
 import com.github.zhgxun.talk.common.exception.LengthException;
-import com.github.zhgxun.talk.common.processor.impl.LineProcessor;
-import com.github.zhgxun.talk.config.Constant;
+import com.github.zhgxun.talk.common.processor.impl.LineTextProcessor;
+import com.github.zhgxun.talk.config.SpeechConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class TextUtil {
      */
     public static List<String> analysis(String text) {
         List<String> texts = new ArrayList<>();
-        String lineText = new LineProcessor().process(text);
-        if (lineText.length() <= Constant.MAX_TEXT_LENGTH) {
+        String lineText = new LineTextProcessor().process(text);
+        if (lineText.length() <= SpeechConfig.MAX_TEXT_LENGTH) {
             texts.add(lineText);
             return texts;
         }
@@ -34,25 +34,25 @@ public class TextUtil {
         int len = 0;
         String has = "";
 
-        String[] texts = text.split(Constant.DEFAULT_REPLACE);
+        String[] texts = text.split(SpeechConfig.DEFAULT_REPLACE);
         int count = texts.length;
         int i = 1;
         for (String t : texts) {
             int length = t.length();
-            if (length > Constant.MAX_TEXT_LENGTH) {
+            if (length > SpeechConfig.MAX_TEXT_LENGTH) {
                 log.error("text: {} too long", t);
                 throw new LengthException("单行文本片段长度超过最大限制, 功能不完整");
             }
-            if (length >= Constant.MIDDLE_TEXT_LENGTH) {
+            if (length >= SpeechConfig.MIDDLE_TEXT_LENGTH) {
                 target.add(t);
             } else {
                 len += length + 1;
-                if (len > Constant.MAX_TEXT_LENGTH) {
+                if (len > SpeechConfig.MAX_TEXT_LENGTH) {
                     target.add(has);
                     len = 0;
                     has = "";
                 }
-                has = has.concat(t + Constant.DEFAULT_REPLACE);
+                has = has.concat(t + SpeechConfig.DEFAULT_REPLACE);
             }
             if (i++ >= count) {
                 if (has.length() > 0) {

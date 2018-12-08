@@ -12,3 +12,5 @@ logging:
 # mybatis包扫描
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+server:
+  port: 80

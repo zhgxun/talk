@@ -4,7 +4,7 @@ import com.baidu.aip.speech.AipSpeech;
 import com.baidu.aip.speech.TtsResponse;
 import com.baidu.aip.util.Util;
 import com.github.zhgxun.talk.common.exception.SpeechException;
-import com.github.zhgxun.talk.config.Constant;
+import com.github.zhgxun.talk.config.SpeechConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class AipSpeechUtil {
 
-    private static final AipSpeech speech = new AipSpeech(Constant.APP_ID, Constant.APP_KEY, Constant.SECRET_KEY);
+    private static final AipSpeech speech = new AipSpeech(SpeechConfig.APP_ID, SpeechConfig.APP_KEY, SpeechConfig.SECRET_KEY);
 
     private AipSpeechUtil() {
     }
@@ -42,7 +42,7 @@ public class AipSpeechUtil {
      */
     private static void fragment(
             String path, String text, HashMap<String, Object> options) {
-        TtsResponse response = getSpeech().synthesis(text, Constant.LANG, Constant.CTP, options);
+        TtsResponse response = getSpeech().synthesis(text, SpeechConfig.LANG, SpeechConfig.CTP, options);
         byte[] data = response.getData();
         if (data != null) {
             try {
@@ -76,7 +76,7 @@ public class AipSpeechUtil {
         // 2. 片段语音合成
         int i = base + 1;
         for (String s : texts) {
-            String fileName = String.format("%s/audio_%s.%s", origin, i++, Constant.AUDIO_EXT);
+            String fileName = String.format("%s/audio_%s.%s", origin, i++, SpeechConfig.AUDIO_EXT);
             FileUtil.createFile(fileName);
             fragment(fileName, s, options);
             target.add(origin);
@@ -84,7 +84,7 @@ public class AipSpeechUtil {
 
         // 3. 是否合并片段文件
         if (combine) {
-            String exec = String.format("cat %s/audio_*.%s >> %s", origin, Constant.AUDIO_EXT, dest);
+            String exec = String.format("cat %s/audio_*.%s >> %s", origin, SpeechConfig.AUDIO_EXT, dest);
             String[] cmd = {"/bin/sh", "-c", exec};
             Runtime.getRuntime().exec(cmd);
         }
@@ -100,10 +100,10 @@ public class AipSpeechUtil {
                 "\n" +
                 "寒雨连江夜入吴，平明送客楚山孤。\n" +
                 "洛阳亲友如相问，一片冰心在玉壶。";
-        String dest = String.format("%s/article/article.mp3", Constant.DONE_DIR);
+        String dest = String.format("%s/article/article.mp3", SpeechConfig.DONE_DIR);
         FileUtil.deleteFolder(dest);
         FileUtil.createFile(dest);
-        String origin = String.format("%s/article", Constant.MERGE_DIR);
+        String origin = String.format("%s/article", SpeechConfig.MERGE_DIR);
         FileUtil.deleteFolder(origin);
         scatter(origin, dest, text, null, true, 0);
     }
