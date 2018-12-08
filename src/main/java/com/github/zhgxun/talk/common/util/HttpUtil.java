@@ -16,7 +16,6 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +24,12 @@ import java.util.Set;
 /**
  * http工具
  */
-public class HttpUtil {
+public class HttpUtil implements AutoCloseable {
 
-    public static String doGet(String url) {
-        CloseableHttpClient client = null;
-        CloseableHttpResponse response = null;
+    private CloseableHttpClient client = null;
+    private CloseableHttpResponse response = null;
+
+    public String doGet(String url) {
         try {
             client = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(url);
@@ -44,27 +44,10 @@ public class HttpUtil {
             return EntityUtils.toString(entity);
         } catch (IOException e) {
             throw new HttpException("http get request failed", e);
-        } finally {
-            if (null != response) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != client) {
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
-    public static String doPost(String url, Map<String, Object> paramMap) {
-        CloseableHttpClient client = null;
-        CloseableHttpResponse response = null;
+    public String doPost(String url, Map<String, Object> paramMap) {
         client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(35000)
@@ -93,33 +76,24 @@ public class HttpUtil {
             return EntityUtils.toString(entity);
         } catch (IOException e) {
             throw new HttpException("http post request failed", e);
-        } finally {
-            if (null != client) {
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != response) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
-    public static void main(String[] args) {
-        String url = "https://api.weibo.com/oauth2/access_token";
-        Map<String, Object> map = new HashMap<>();
-        map.put("client_id", "3461295618");
-        map.put("client_secret", "4d41bb55bf61c7e92567619fef6a16e2");
-        map.put("grant_type", "authorization_code");
-        map.put("code", "2ec9317e4291bb66b1fafc6586db3c5b");
-        map.put("redirect_uri", "https://zhgxun.github.io");
-        // {"access_token":"2.00Fl_WIGgGPPmD2fa5c74ae3fARRwC","remind_in":"157679999","expires_in":157679999,"uid":"5622710131","isRealName":"false"}
-        System.out.println(doPost(url, map));
+    @Override
+    public void close() throws Exception {
+        if (null != client) {
+            try {
+                client.close();
+            } catch (IOException e) {
+                throw new HttpException("http client close error", e);
+            }
+        }
+        if (null != response) {
+            try {
+                response.close();
+            } catch (IOException e) {
+                throw new HttpException("http response close error", e);
+            }
+        }
     }
 }

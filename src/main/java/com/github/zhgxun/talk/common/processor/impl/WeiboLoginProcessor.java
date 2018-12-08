@@ -1,9 +1,13 @@
 package com.github.zhgxun.talk.common.processor.impl;
 
 import com.github.zhgxun.talk.common.processor.LoginProcessor;
+import com.github.zhgxun.talk.common.util.HttpUtil;
 import com.github.zhgxun.talk.config.WeiboConfig;
 import com.github.zhgxun.talk.entity.UserEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 微博登陆
@@ -34,6 +38,19 @@ public class WeiboLoginProcessor implements LoginProcessor {
     }
 
     public static void main(String[] args) {
-        System.out.println(new WeiboLoginProcessor().accessToken("e1d6ce7b004e61a7fc51e8da3bf3d4bd"));
+        String url = "https://api.weibo.com/oauth2/access_token";
+        Map<String, Object> map = new HashMap<>();
+        map.put("client_id", "3461295618");
+        map.put("client_secret", "4d41bb55bf61c7e92567619fef6a16e2");
+        map.put("grant_type", "authorization_code");
+        map.put("code", "2ec9317e4291bb66b1fafc6586db3c5b");
+        map.put("redirect_uri", "https://zhgxun.github.io");
+        // {"access_token":"2.00Fl_WIGgGPPmD2fa5c74ae3fARRwC","remind_in":"157679999","expires_in":157679999,"uid":"5622710131","isRealName":"false"}
+        try (HttpUtil httpUtil = new HttpUtil()) {
+            String content = httpUtil.doPost(url, map);
+            System.out.println(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
