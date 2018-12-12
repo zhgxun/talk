@@ -15,8 +15,7 @@ logging:
       github:
         zhgxun:
           talk:
-            dao:
-              UserDao: debug
+            dao: debug
 
 # mybatis
 mybatis:

@@ -9,4 +9,5 @@ public class UserEntity extends BaseEntity {
     private String nickName;
     private UserRole role;
     private UserType type;
+    private OauthEntity oauth;
 }

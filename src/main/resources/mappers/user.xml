@@ -3,10 +3,75 @@
 <mapper namespace="com.github.zhgxun.talk.dao.UserDao">
 
     <!--
-        添加用户, 主键自增
+        通用列
+        注意, 如果这里转换过列名, 则结果集需要用被转化后的新的列名，否则不识别
     -->
-    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <sql id="columns">
+        id,
+        nick_name,
+        role,
+        `type`
+    </sql>
+
+    <!--
+        结果集
+    -->
+    <resultMap id="entity" type="com.github.zhgxun.talk.entity.UserEntity">
+        <id property="id" column="id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="role" column="role"
+                typeHandler="com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler"/>
+        <result property="type" column="type"
+                typeHandler="com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler"/>
+    </resultMap>
+
+    <!--
+        1. 添加用户
+        useGeneratedKeys="true" 使用自增主键
+        keyColumn="id" 对应的主键列
+        keyProperty="id" 对应的主键对象属性
+        需要在外部获取自增主键
+    -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="com.github.zhgxun.talk.entity.UserEntity">
         INSERT INTO `user`(`nick_name`, `role`, `type`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{nickName}, #{role, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}, #{type, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+        VALUES (#{nickName}, #{role, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{type, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
+
+    <!--
+        2.1 查询单个用户
+        只允许昵称查询
+    -->
+    <select id="findOne" resultMap="entity">
+        SELECT
+        <include refid="columns"/>
+        FROM `user`
+        WHERE id = #{id}
+    </select>
+
+    <!--
+        2.2 查询多个用户
+        通过主键或者昵称查询
+        昵称允许重复, 同一个用户可能存在多个第三方平台的登录信息
+    -->
+    <select id="findAny" resultMap="entity">
+        SELECT
+        <include refid="columns"/>
+        FROM `user`
+        <where>
+            <if test="id > 0">
+                id = #{id}
+            </if>
+            <if test="nickName != ''">
+                AND nick_name = #{nickName}
+            </if>
+            <if test="type != null">
+                AND `type` = #{type}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delete">
+        DELETE FROM `user` WHERE id = #{id}
+    </delete>
 </mapper>

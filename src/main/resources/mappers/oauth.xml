@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.zhgxun.talk.dao.UserDao">
-
-    <!--
-        添加对应的第三方信息, 主键自增
-    -->
-    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO `user`(`user_id`, `oauth_name`, `oauth_id`, `oauth_access_token`, `oauth_expires`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{user_id}, #{oauth_name}, #{oauth_id}, #{oauth_access_token}, #{oauth_expires}, #{creator}, #{updater}, #{create_time}, #{update_time})
+<mapper namespace="com.github.zhgxun.talk.dao.OauthDao">
+    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id"
+            parameterType="com.github.zhgxun.talk.entity.OauthEntity">
+        INSERT INTO `oauth`(`user_id`, `oauth_name`, `oauth_id`, `oauth_access_token`, `oauth_expires`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{userId}, #{oauthName}, #{oauthId}, #{oauthAccessToken}, #{oauthExpires}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
+
+    <delete id="delete">
+        DELETE FROM `oauth` WHERE user_id = #{userId}
+    </delete>
 </mapper>

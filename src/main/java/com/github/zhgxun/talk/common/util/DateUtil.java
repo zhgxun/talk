@@ -5,7 +5,7 @@ package com.github.zhgxun.talk.common.util;
  */
 public class DateUtil {
 
-    public static int getTimeStamp() {
-        return (int) System.currentTimeMillis() / 1000;
+    public static Long getTimeStamp() {
+        return System.currentTimeMillis() / 1000;
     }
 }

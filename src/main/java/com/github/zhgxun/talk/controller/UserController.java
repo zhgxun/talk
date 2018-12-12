@@ -2,8 +2,10 @@ package com.github.zhgxun.talk.controller;
 
 import com.github.zhgxun.talk.common.enums.UserRole;
 import com.github.zhgxun.talk.common.enums.UserType;
+import com.github.zhgxun.talk.common.util.ResponseUtil;
+import com.github.zhgxun.talk.config.Code;
 import com.github.zhgxun.talk.entity.UserEntity;
-import com.github.zhgxun.talk.service.UserService;
+import com.github.zhgxun.talk.manger.UserManger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserManger userManger;
 
     /**
      * 获取用户第三方授权跳转链接
@@ -31,46 +32,97 @@ public class UserController {
      * @return 授权链接
      */
     @GetMapping("/access")
-    public String accessUrl(
+    public ResponseUtil<String> accessUrl(
             @RequestParam(name = "type", defaultValue = "WEIBO") @NotNull(message = "参数为空") UserType type) {
         log.info("type: {}", type);
-        return userService.accessUrl(type);
+        ResponseUtil<String> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.accessUrl(type));
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 
     @GetMapping("/code")
-    public String code(
+    public ResponseUtil<String> code(
             @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type,
             @RequestParam(name = "code") @NotNull(message = "参数为空") String code) {
         log.info("type: {}, code: {}", type, code);
-        return userService.code(type, code);
+        ResponseUtil<String> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.code(type, code));
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 
-    @GetMapping("/list")
-    public List<UserEntity> list() {
-        return new ArrayList<>();
+    @GetMapping("/one")
+    public ResponseUtil<UserEntity> one(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+        ResponseUtil<UserEntity> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.findOne(id));
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 
-    @GetMapping("/info")
-    public UserEntity info(@RequestParam(name = "id") int id,
-                           @RequestParam(name = "nickName") String nickName) {
-        return new UserEntity();
+    @GetMapping("/any")
+    public ResponseUtil<List<UserEntity>> any(@RequestParam(name = "id") int id,
+                                              @RequestParam(name = "nickName") String nickName,
+                                              @RequestParam(name = "type") UserType type) {
+        log.info("id: {}, nickName: {}, type: {}", id, nickName, type);
+        ResponseUtil<List<UserEntity>> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.findAny(id, nickName, type));
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 
     @PostMapping("/add")
-    public int add(@RequestParam(name = "nickName") @NotNull(message = "参数为空") String nickName,
-                   @RequestParam(name = "role") @NotNull(message = "参数为空") UserRole role,
-                   @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type) {
+    public ResponseUtil<Integer> add(@RequestParam(name = "nickName") @NotNull(message = "参数为空") String nickName,
+                                     @RequestParam(name = "role") @NotNull(message = "参数为空") UserRole role,
+                                     @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type) {
         log.info("nickName: {}, role: {}, type: {}", nickName, role, type);
-        return userService.add(nickName, role, type);
-    }
-
-    @PostMapping("/update")
-    public UserEntity update(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
-        return new UserEntity();
+        ResponseUtil<Integer> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.add(nickName, role, type));
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 
     @PostMapping("/delete")
-    public boolean delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
-        return true;
+    public ResponseUtil<Boolean> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+        ResponseUtil<Boolean> res = new ResponseUtil<>();
+        try {
+            res.setCode(Code.SUCCESS);
+            res.setData(userManger.delete(id) > 0);
+        } catch (Exception e) {
+            log.error("", e);
+            res.setCode(Code.FAILED);
+            res.setMessage(e.getMessage());
+        }
+        return res;
     }
 }

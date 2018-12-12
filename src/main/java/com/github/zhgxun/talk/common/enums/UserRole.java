@@ -1,6 +1,6 @@
 package com.github.zhgxun.talk.common.enums;
 
-public enum UserRole {
+public enum UserRole implements ExtEnumOrdinalTypeHandler.ValuedEnum {
     ADMIN(1), NONE(2);
 
     private Integer index;
@@ -9,7 +9,8 @@ public enum UserRole {
         this.index = index;
     }
 
-    public int getIndex() {
+    @Override
+    public int getValue() {
         return this.index;
     }
 }
