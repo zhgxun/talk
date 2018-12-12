@@ -1,10 +1,10 @@
-package com.github.zhgxun.talk.manger.impl;
+package com.github.zhgxun.talk.manager.impl;
 
 import com.github.zhgxun.talk.common.enums.UserRole;
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 import com.github.zhgxun.talk.entity.UserEntity;
-import com.github.zhgxun.talk.manger.UserManger;
+import com.github.zhgxun.talk.manager.UserManager;
 import com.github.zhgxun.talk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserMangerImpl implements UserManger {
+public class UserManagerImpl implements UserManager {
 
     @Autowired
     private UserService userService;

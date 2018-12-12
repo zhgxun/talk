@@ -7,17 +7,25 @@
     <sql id="columns">
         id,
         parent_id as "parentId",
-        name,
-        creator,
-        updater,
-        create_time as "createTime"
-        update_time as "updateTime"
+        `name`
     </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id"
+            parameterType="com.github.zhgxun.talk.entity.CategoryEntity">
+        INSERT INTO `category`(`parent_id`, `name`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{parentId}, #{name}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+    </insert>
 
     <select id="findOne" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
         FROM category
         WHERE id = #{id}
+    </select>
+
+    <select id="any" resultMap="map">
+        SELECT
+        <include refid="columns"/>
+        FROM category
     </select>
 </mapper>

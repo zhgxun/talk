@@ -4,7 +4,7 @@ import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
 import com.github.zhgxun.talk.entity.UserEntity;
-import com.github.zhgxun.talk.manger.UserManger;
+import com.github.zhgxun.talk.manager.UserManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserManger userManger;
+    private UserManager userManager;
 
     /**
      * 获取用户第三方授权跳转链接
@@ -37,7 +37,7 @@ public class UserController {
         ResponseUtil<String> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
-            res.setData(userManger.accessUrl(type));
+            res.setData(userManager.accessUrl(type));
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);
@@ -54,7 +54,7 @@ public class UserController {
         ResponseUtil<UserEntity> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
-            res.setData(userManger.code(type, code));
+            res.setData(userManager.code(type, code));
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);
@@ -68,7 +68,7 @@ public class UserController {
         ResponseUtil<UserEntity> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
-            res.setData(userManger.findOne(id));
+            res.setData(userManager.findOne(id));
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);
@@ -85,7 +85,7 @@ public class UserController {
         ResponseUtil<List<UserEntity>> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
-            res.setData(userManger.findAny(id, nickName, type));
+            res.setData(userManager.findAny(id, nickName, type));
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);
@@ -99,7 +99,7 @@ public class UserController {
         ResponseUtil<Boolean> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
-            res.setData(userManger.delete(id) > 0);
+            res.setData(userManager.delete(id) > 0);
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);

@@ -1,11 +1,11 @@
-package com.github.zhgxun.talk.manger;
+package com.github.zhgxun.talk.manager;
 
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.entity.UserEntity;
 
 import java.util.List;
 
-public interface UserManger {
+public interface UserManager {
 
     String accessUrl(UserType type);
 
