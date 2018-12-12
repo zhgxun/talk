@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `book` (
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
   `nick_name` varchar(120) NOT NULL DEFAULT "" COMMENT '昵称',
+  `url` varchar(255) NOT NULL DEFAULT "" COMMENT '头像地址',
   `role` tinyint(1) NOT NULL DEFAULT 2 COMMENT '角色, 1为管理员, 2为普通用户',
   `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '认证方式, 目前仅1:QQ,2:微博,3:微信',
   `creator` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建者',

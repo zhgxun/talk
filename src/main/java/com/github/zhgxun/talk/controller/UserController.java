@@ -1,6 +1,5 @@
 package com.github.zhgxun.talk.controller;
 
-import com.github.zhgxun.talk.common.enums.UserRole;
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
@@ -48,11 +47,11 @@ public class UserController {
     }
 
     @GetMapping("/code")
-    public ResponseUtil<String> code(
+    public ResponseUtil<UserEntity> code(
             @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type,
             @RequestParam(name = "code") @NotNull(message = "参数为空") String code) {
         log.info("type: {}, code: {}", type, code);
-        ResponseUtil<String> res = new ResponseUtil<>();
+        ResponseUtil<UserEntity> res = new ResponseUtil<>();
         try {
             res.setCode(Code.SUCCESS);
             res.setData(userManger.code(type, code));
@@ -87,23 +86,6 @@ public class UserController {
         try {
             res.setCode(Code.SUCCESS);
             res.setData(userManger.findAny(id, nickName, type));
-        } catch (Exception e) {
-            log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
-        }
-        return res;
-    }
-
-    @PostMapping("/add")
-    public ResponseUtil<Integer> add(@RequestParam(name = "nickName") @NotNull(message = "参数为空") String nickName,
-                                     @RequestParam(name = "role") @NotNull(message = "参数为空") UserRole role,
-                                     @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type) {
-        log.info("nickName: {}, role: {}, type: {}", nickName, role, type);
-        ResponseUtil<Integer> res = new ResponseUtil<>();
-        try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManger.add(nickName, role, type));
         } catch (Exception e) {
             log.error("", e);
             res.setCode(Code.FAILED);

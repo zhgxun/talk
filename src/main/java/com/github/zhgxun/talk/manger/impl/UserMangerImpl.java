@@ -2,6 +2,7 @@ package com.github.zhgxun.talk.manger.impl;
 
 import com.github.zhgxun.talk.common.enums.UserRole;
 import com.github.zhgxun.talk.common.enums.UserType;
+import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 import com.github.zhgxun.talk.entity.UserEntity;
 import com.github.zhgxun.talk.manger.UserManger;
 import com.github.zhgxun.talk.service.UserService;
@@ -24,18 +25,23 @@ public class UserMangerImpl implements UserManger {
     }
 
     @Override
-    public String code(UserType type, String code) {
-        return userService.code(type, code);
-    }
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
+    public UserEntity code(UserType type, String code) {
+        // 1. 收到回调后即添加用户, 用户存在即为已授权成功直接返回成功即可
+        String codes = userService.code(type, code);
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public int add(String nickName, UserRole role, UserType type) {
+        // 2. 通过code查询用户权限和基本信息
+        ThirdUserPart part = userService.part(type, code);
+
+        // 3. 保存用户相关
         UserEntity entity = new UserEntity();
-        entity.setNickName(nickName);
-        entity.setRole(role);
+        entity.setNickName(part.getName());
+        entity.setUrl(part.getUrl());
+        // 管理员通过修改数据行记录, 全部默认为普通用户
+        entity.setRole(UserRole.NONE);
         entity.setType(type);
-        return userService.add(entity);
+        userService.add(entity, part);
+        return userService.findOne(entity.getId());
     }
 
     @Override

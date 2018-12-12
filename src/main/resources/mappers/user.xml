@@ -9,6 +9,7 @@
     <sql id="columns">
         id,
         nick_name,
+        url,
         role,
         `type`
     </sql>

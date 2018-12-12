@@ -2,6 +2,7 @@ package com.github.zhgxun.talk.service.impl;
 
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.common.exception.UserException;
+import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 import com.github.zhgxun.talk.common.processor.impl.WeiboLoginProcessor;
 import com.github.zhgxun.talk.config.Constant;
 import com.github.zhgxun.talk.dao.OauthDao;
@@ -58,9 +59,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int add(UserEntity entity) {
-        if (findAny(0, entity.getNickName(), entity.getType().getValue()).size() > 0) {
-            throw new UserException("用户已经存在, 请直接登录");
+    public ThirdUserPart part(UserType type, String code) {
+        return new ThirdUserPart();
+    }
+
+    @Override
+    public UserEntity add(UserEntity entity, ThirdUserPart part) {
+        List<UserEntity> entities = findAny(0, entity.getNickName(), entity.getType().getValue());
+        if (entities.size() > 0) {
+            return entities.get(0);
         }
 
         userDao.add(entity);
@@ -80,11 +87,11 @@ public class UserServiceImpl implements UserService {
             default:
                 oauth.setOauthName("未知平台");
         }
-        oauth.setOauthId("id");
-        oauth.setOauthAccessToken("token");
-        oauth.setOauthExpires(3600);
+        oauth.setOauthId(part.getOauthId());
+        oauth.setOauthAccessToken(part.getOauthAccessToken());
+        oauth.setOauthExpires(part.getOauthExpires());
         oauthDao.add(oauth);
-        return userId;
+        return entity;
     }
 
     @Override

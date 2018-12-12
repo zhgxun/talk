@@ -1,6 +1,5 @@
 package com.github.zhgxun.talk.manger;
 
-import com.github.zhgxun.talk.common.enums.UserRole;
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.entity.UserEntity;
 
@@ -10,9 +9,7 @@ public interface UserManger {
 
     String accessUrl(UserType type);
 
-    String code(UserType type, String code);
-
-    int add(String nickName, UserRole role, UserType type);
+    UserEntity code(UserType type, String code);
 
     UserEntity findOne(int id);
 
