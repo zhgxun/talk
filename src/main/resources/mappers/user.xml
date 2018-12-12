@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zhgxun.talk.dao.UserDao">
+
+    <!--
+        添加用户, 主键自增
+    -->
+    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `user`(`nick_name`, `role`, `type`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{nickName}, #{role, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}, #{type, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+    </insert>
+</mapper>

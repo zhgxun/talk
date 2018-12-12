@@ -1,11 +1,11 @@
 package com.github.zhgxun.talk.common.enums;
 
-public enum UserType {
-    QQ(1), WEIBO(2), WEIXIN(3);
+public enum UserRole {
+    ADMIN(1), NONE(2);
 
-    private int index;
+    private Integer index;
 
-    UserType(int index) {
+    UserRole(Integer index) {
         this.index = index;
     }
 

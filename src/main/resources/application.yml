@@ -1,16 +1,27 @@
 # 配置中心
 
-# 激活级别
+# 激活环境
 spring:
   profiles:
     active: dev
 
-# 日志配置
+# 日志
 logging:
   config: classpath:logback-spring.xml
 
-# mybatis包扫描
+  # 日志级别
+  level:
+    com:
+      github:
+        zhgxun:
+          talk:
+            dao:
+              UserDao: debug
+
+# mybatis
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:mappers/*.xml
+#  configuration:
+#    interceptors: com.github.zhgxun.talk.common.plugin.GeneralPlugin
 server:
   port: 80
