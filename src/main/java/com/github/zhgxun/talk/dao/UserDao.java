@@ -1,6 +1,5 @@
 package com.github.zhgxun.talk.dao;
 
-import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
