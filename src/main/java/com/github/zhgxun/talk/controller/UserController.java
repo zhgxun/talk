@@ -33,7 +33,6 @@ public class UserController {
     @GetMapping("/access")
     public ResponseUtil<String> accessUrl(
             @RequestParam(name = "type", defaultValue = "WEIBO") @NotNull(message = "参数为空") UserType type) {
-        log.info("type: {}", type);
         try {
             return new ResponseUtil<>(userManager.accessUrl(type));
         } catch (Exception e) {
@@ -46,7 +45,6 @@ public class UserController {
     public ResponseUtil<UserEntity> code(
             @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type,
             @RequestParam(name = "code") @NotNull(message = "参数为空") String code) {
-        log.info("type: {}, code: {}", type, code);
         try {
             return new ResponseUtil<>(userManager.code(type, code));
         } catch (Exception e) {
@@ -69,7 +67,6 @@ public class UserController {
     public ResponseUtil<List<UserEntity>> any(@RequestParam(name = "id", required = false, defaultValue = "0") int id,
                                               @RequestParam(name = "nickName", required = false, defaultValue = "") String nickName,
                                               @RequestParam(name = "type", required = false, defaultValue = "") UserType type) {
-        log.info("id: {}, nickName: {}, type: {}", id, nickName, type);
         try {
             return new ResponseUtil<>(userManager.findAny(id, nickName, type));
         } catch (Exception e) {

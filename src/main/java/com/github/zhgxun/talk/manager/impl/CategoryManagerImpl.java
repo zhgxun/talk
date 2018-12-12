@@ -34,6 +34,9 @@ public class CategoryManagerImpl implements CategoryManager {
     @Override
     public CategoryBean findOne(int id, String name) {
         CategoryEntity entity = categoryService.findOne(id, name);
+        if (entity == null) {
+            throw new NormalException("类目不存在");
+        }
         return depth(entity);
     }
 

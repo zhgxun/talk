@@ -29,7 +29,6 @@ public class CategoryController {
     public ResponseUtil<CategoryEntity> add(@RequestParam(name = "parentId") @NotNull(message = "参数为空") int parentId,
                                             @RequestParam(name = "name") @NotNull(message = "参数为空") String name,
                                             @RequestParam(name = "level") @NotNull(message = "参数为空") int level) {
-        log.info("parentId: {}, name: {}", parentId, name);
         try {
             if (parentId < Constant.MIN_PARENT
                     || level < Constant.MIN_LEVEL
@@ -49,7 +48,6 @@ public class CategoryController {
     @GetMapping("/one")
     public ResponseUtil<CategoryBean> one(@RequestParam(name = "id") @NotNull(message = "参数为空") int id,
                                           @RequestParam(name = "name", required = false, defaultValue = "") String name) {
-        log.info("id: {}, name: {}", id, name);
         try {
             return new ResponseUtil<>(categoryManager.findOne(id, name.trim()));
         } catch (Exception e) {
