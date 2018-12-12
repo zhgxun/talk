@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
   `parent_id` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '父类目标识',
+  `level` int(11) unsigned NOT NULL DEFAULT 1 COMMENT '类目等级',
   `name` varchar(120) NOT NULL DEFAULT "" COMMENT '标题',
   `creator` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建者',
   `updater` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建者',

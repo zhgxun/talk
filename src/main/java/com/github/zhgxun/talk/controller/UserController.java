@@ -34,16 +34,12 @@ public class UserController {
     public ResponseUtil<String> accessUrl(
             @RequestParam(name = "type", defaultValue = "WEIBO") @NotNull(message = "参数为空") UserType type) {
         log.info("type: {}", type);
-        ResponseUtil<String> res = new ResponseUtil<>();
         try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManager.accessUrl(type));
+            return new ResponseUtil<>(userManager.accessUrl(type));
         } catch (Exception e) {
             log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
-        return res;
     }
 
     @GetMapping("/code")
@@ -51,60 +47,44 @@ public class UserController {
             @RequestParam(name = "type") @NotNull(message = "参数为空") UserType type,
             @RequestParam(name = "code") @NotNull(message = "参数为空") String code) {
         log.info("type: {}, code: {}", type, code);
-        ResponseUtil<UserEntity> res = new ResponseUtil<>();
         try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManager.code(type, code));
+            return new ResponseUtil<>(userManager.code(type, code));
         } catch (Exception e) {
             log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
-        return res;
     }
 
     @GetMapping("/one")
     public ResponseUtil<UserEntity> one(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
-        ResponseUtil<UserEntity> res = new ResponseUtil<>();
         try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManager.findOne(id));
+            return new ResponseUtil<>(userManager.findOne(id));
         } catch (Exception e) {
             log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
-        return res;
     }
 
     @GetMapping("/any")
-    public ResponseUtil<List<UserEntity>> any(@RequestParam(name = "id") int id,
-                                              @RequestParam(name = "nickName") String nickName,
-                                              @RequestParam(name = "type") UserType type) {
+    public ResponseUtil<List<UserEntity>> any(@RequestParam(name = "id", required = false, defaultValue = "0") int id,
+                                              @RequestParam(name = "nickName", required = false, defaultValue = "") String nickName,
+                                              @RequestParam(name = "type", required = false, defaultValue = "") UserType type) {
         log.info("id: {}, nickName: {}, type: {}", id, nickName, type);
-        ResponseUtil<List<UserEntity>> res = new ResponseUtil<>();
         try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManager.findAny(id, nickName, type));
+            return new ResponseUtil<>(userManager.findAny(id, nickName, type));
         } catch (Exception e) {
             log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
-        return res;
     }
 
     @PostMapping("/delete")
     public ResponseUtil<Boolean> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
-        ResponseUtil<Boolean> res = new ResponseUtil<>();
         try {
-            res.setCode(Code.SUCCESS);
-            res.setData(userManager.delete(id) > 0);
+            return new ResponseUtil<>(userManager.delete(id) > 0);
         } catch (Exception e) {
             log.error("", e);
-            res.setCode(Code.FAILED);
-            res.setMessage(e.getMessage());
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
-        return res;
     }
 }

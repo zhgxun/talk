@@ -1,14 +1,15 @@
 package com.github.zhgxun.talk.manager;
 
 import com.github.zhgxun.talk.entity.CategoryEntity;
+import com.github.zhgxun.talk.manager.bean.CategoryBean;
 
 import java.util.List;
 
 public interface CategoryManager {
 
-    CategoryEntity add(CategoryEntity entity);
+    CategoryEntity add(int parentId, String name, int level);
 
-    CategoryEntity findOne(int id);
+    CategoryBean findOne(int id, String name);
 
-    List<CategoryEntity> any();
+    List<CategoryBean> any();
 }

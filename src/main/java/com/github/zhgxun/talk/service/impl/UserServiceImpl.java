@@ -1,7 +1,7 @@
 package com.github.zhgxun.talk.service.impl;
 
 import com.github.zhgxun.talk.common.enums.UserType;
-import com.github.zhgxun.talk.common.exception.UserException;
+import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 import com.github.zhgxun.talk.common.processor.impl.WeiboLoginProcessor;
 import com.github.zhgxun.talk.config.Constant;
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public int delete(int id) {
         UserEntity entity = userDao.findOne(id);
         if (entity == null) {
-            throw new UserException("用户不存在");
+            throw new NormalException("用户不存在");
         }
         int userId = entity.getId();
         int rs = userDao.delete(id);

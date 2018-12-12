@@ -31,7 +31,7 @@ public class UserManagerImpl implements UserManager {
         String codes = userService.code(type, code);
 
         // 2. 通过code查询用户权限和基本信息
-        ThirdUserPart part = userService.part(type, code);
+        ThirdUserPart part = userService.part(type, codes);
 
         // 3. 保存用户相关
         UserEntity entity = new UserEntity();

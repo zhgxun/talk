@@ -8,7 +8,7 @@ public interface CategoryService {
 
     CategoryEntity add(CategoryEntity entity);
 
-    CategoryEntity findOne(int id);
+    CategoryEntity findOne(int id, String name);
 
-    List<CategoryEntity> any();
+    List<CategoryEntity> any(int id, int parentId, int level);
 }

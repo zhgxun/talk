@@ -60,7 +60,7 @@
         <include refid="columns"/>
         FROM `user`
         <where>
-            <if test="id > 0">
+            <if test="id != null and id > 0">
                 id = #{id}
             </if>
             <if test="nickName != ''">

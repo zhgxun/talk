@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper
 public interface CategoryDao {
 
-    CategoryEntity add(CategoryEntity entity);
+    int add(CategoryEntity entity);
 
-    CategoryEntity findOne(@Param("id") int id);
+    CategoryEntity findOne(@Param("id") int id, @Param("name") String name);
 
-    List<CategoryEntity> any();
+    List<CategoryEntity> any(@Param("id") int id, @Param("parentId") int parentId, @Param("level") int level);
 }

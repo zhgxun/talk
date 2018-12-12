@@ -7,25 +7,44 @@
     <sql id="columns">
         id,
         parent_id as "parentId",
+        `level`,
         `name`
     </sql>
 
     <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id"
             parameterType="com.github.zhgxun.talk.entity.CategoryEntity">
-        INSERT INTO `category`(`parent_id`, `name`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{parentId}, #{name}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+        INSERT INTO `category`(`parent_id`, `level`, `name`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{parentId}, #{level}, #{name}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
 
     <select id="findOne" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
         FROM category
-        WHERE id = #{id}
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND `name` = #{name}
+            </if>
+        </where>
     </select>
 
-    <select id="any" resultMap="map">
+    <select id="any" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
         FROM category
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="parentId != null and parentId > 0">
+                AND parent_id = #{parentId}
+            </if>
+            <if test="level != null and level > 0">
+                AND `level` = #{level}
+            </if>
+        </where>
     </select>
 </mapper>
