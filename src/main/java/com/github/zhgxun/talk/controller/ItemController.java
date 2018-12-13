@@ -1,7 +1,9 @@
 package com.github.zhgxun.talk.controller;
 
+import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
+import com.github.zhgxun.talk.config.Message;
 import com.github.zhgxun.talk.entity.ItemEntity;
 import com.github.zhgxun.talk.manager.ItemManager;
 import io.swagger.annotations.Api;
@@ -86,6 +88,9 @@ public class ItemController {
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
         try {
+            if (id < 0) {
+                throw new NormalException(Message.ERROR);
+            }
             return new ResponseUtil<>(itemManager.delete(id, 0));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());

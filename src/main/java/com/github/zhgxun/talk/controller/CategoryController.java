@@ -1,8 +1,10 @@
 package com.github.zhgxun.talk.controller;
 
+import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
 import com.github.zhgxun.talk.config.Constant;
+import com.github.zhgxun.talk.config.Message;
 import com.github.zhgxun.talk.entity.CategoryEntity;
 import com.github.zhgxun.talk.manager.CategoryManager;
 import com.github.zhgxun.talk.manager.bean.CategoryBean;
@@ -54,7 +56,7 @@ public class CategoryController {
                     || name.trim().length() < Constant.MIN_LENGTH
                     || name.trim().length() > Constant.MAX_LENGTH
             ) {
-                return new ResponseUtil<>(Code.FAILED, "类目提交异常");
+                return new ResponseUtil<>(Code.FAILED, Message.ERROR);
             }
             return new ResponseUtil<>(categoryManager.add(parentId, name, level));
         } catch (Exception e) {
@@ -107,6 +109,9 @@ public class CategoryController {
     @RequestMapping(path = "delete", method = RequestMethod.POST)
     public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
         try {
+            if (id < 0) {
+                throw new NormalException(Message.ERROR);
+            }
             return new ResponseUtil<>(categoryManager.delete(id));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());

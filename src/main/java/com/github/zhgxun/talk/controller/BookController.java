@@ -3,6 +3,7 @@ package com.github.zhgxun.talk.controller;
 import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
+import com.github.zhgxun.talk.config.Message;
 import com.github.zhgxun.talk.entity.BookEntity;
 import com.github.zhgxun.talk.manager.BookManager;
 import io.swagger.annotations.Api;
@@ -97,7 +98,7 @@ public class BookController {
         try {
             int length = 0;
             if (url == null && description == null && playCount < 0) {
-                throw new NormalException("参数错误");
+                throw new NormalException(Message.ERROR);
             }
             if (url != null) {
                 length += url.trim().length();
@@ -106,7 +107,7 @@ public class BookController {
                 length += description.trim().length();
             }
             if (length + playCount < 0) {
-                throw new NormalException("参数缺失");
+                throw new NormalException(Message.ERROR);
             }
             return new ResponseUtil<>(bookManager.update(id, url, description, playCount));
         } catch (Exception e) {
@@ -119,6 +120,9 @@ public class BookController {
     @RequestMapping(path = "delete", method = RequestMethod.POST)
     public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
         try {
+            if (id < 0) {
+                throw new NormalException(Message.ERROR);
+            }
             return new ResponseUtil<>(bookManager.delete(id));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
