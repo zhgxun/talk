@@ -38,7 +38,7 @@ public class BookController {
             @ApiImplicitParam(name = "description", value = "图书描述, 可为抓取或者自行补充的内容", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "playCount", value = "图书播放次数, 无播放时为0", required = true, paramType = "query", dataType = "int"),
     })
-    @RequestMapping(path = "add", method = RequestMethod.POST)
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseUtil<BookEntity> add(@RequestParam(name = "title") @NotNull(message = "参数为空") String title,
                                         @RequestParam(name = "author") @NotNull(message = "参数为空") String author,
                                         @RequestParam(name = "nickName") @NotNull(message = "参数为空") String nickName,
@@ -117,7 +117,7 @@ public class BookController {
 
     @ApiOperation(value = "图书删除", notes = "删除图书及其关联的章节")
     @ApiImplicitParam(name = "id", value = "图书标识", required = true, paramType = "query", dataType = "int")
-    @RequestMapping(path = "delete", method = RequestMethod.POST)
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
         try {
             if (id < 0) {

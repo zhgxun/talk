@@ -106,7 +106,7 @@ public class CategoryController {
 
     @ApiOperation(value = "类目删除", notes = "只删除类目, 不关联删除")
     @ApiImplicitParam(name = "id", value = "类目标识", required = true, paramType = "query", dataType = "int")
-    @RequestMapping(path = "delete", method = RequestMethod.POST)
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
         try {
             if (id < 0) {
