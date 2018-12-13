@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zhgxun.talk.dao.BookDao">
+    <sql id="columns">
+        id,
+        title,
+        author,
+        nick_name as "nickName",
+        url,
+        description,
+        play_count as "playCount"
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `book`(`title`, `author`, `nick_name`, `url`, `description`, `play_count`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{title}, #{author}, #{nickName}, #{url}, #{description}, #{playCount}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="findOne" resultType="com.github.zhgxun.talk.entity.BookEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM `book` WHERE id = #{id}
+    </select>
+
+    <select id="any" resultType="com.github.zhgxun.talk.entity.BookEntity">
+        SELECT
+        FROM `book`
+        <where>
+            <if test="title != null and title != ''">
+                title = #{title}
+            </if>
+            <if test="author != null and author != ''">
+                AND author = #{author}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                AND nick_name = #{nickName}
+            </if>
+        </where>
+        ORDER BY play_count DESC
+    </select>
+
+    <update id="update">
+        UPDATE `book`
+        <set>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="description != null">
+                description = #{description}
+            </if>
+            <if test="playCount != null">
+                play_count = play_count + 1
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>
