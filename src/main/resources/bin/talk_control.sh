@@ -6,23 +6,25 @@
 
 APP=talk.jar
 
+echo "Start..."
+date "+%Y-%m-%d %H:%M:%S"
+
 # 健康检查
 function health() {
     wget --spider -q -o /dev/null --tries=1 -T 5 http://127.0.0.1/actuator/health
     if [[ $? -eq 0 ]]; then
-        echo "${APP} service is running..."
+        echo "${APP}: services in operation..."
     else
-        echo "${APP} service is stop"
+        echo "${APP}: service stop"
     fi
 }
 
 # 启动服务
 function start() {
-    echo "服务启动中..."
     if [[ `ps aux | grep ${APP} | grep -v grep | wc -l` -eq 1 ]]; then
-        echo "${APP} service is running..."
+        echo "${APP}: services in operation..."
     else
-        echo echo "${APP} is starting..."
+        echo "${APP}: starting the service..."
         java -version
         java -Xms1024m -Xmx1024m -jar ../lib/${APP}
     fi
@@ -30,13 +32,12 @@ function start() {
 
 # 停止服务
 function stop() {
-    echo "服务正在停止..."
     if [[ `ps aux | grep ${APP} | grep -v grep | wc -l` -ge 1 ]]; then
-        echo "${APP} service is running..."
+        echo "${APP}: services in operation..."
         pid=`ps -ef | grep ${APP} | grep -v grep | awk '{print $2}'`
         kill -9 ${pid}
     else
-        echo "${APP} is stop"
+        echo "${APP}: service stop"
     fi
 }
 
@@ -59,3 +60,6 @@ case "$1" in
     echo "Usage: talk_control start|stop|restart|health"
     ;;
 esac
+
+date "+%Y-%m-%d %H:%M:%S"
+echo "Done"
