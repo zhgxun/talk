@@ -19,7 +19,15 @@
     <select id="findOne" resultType="com.github.zhgxun.talk.entity.BookEntity">
         SELECT
         <include refid="columns"/>
-        FROM `book` WHERE id = #{id}
+        FROM `book`
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title}
+            </if>
+        </where>
     </select>
 
     <select id="any" resultType="com.github.zhgxun.talk.entity.BookEntity">
