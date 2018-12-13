@@ -38,7 +38,7 @@ public class BookManagerImpl implements BookManager {
     }
 
     @Override
-    public int update(String url, String description, int playCount) {
-        return bookService.update(url, description, playCount);
+    public int update(int id, String url, String description, int playCount) {
+        return bookService.update(id, url, description, playCount);
     }
 }

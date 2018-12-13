@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int update(String url, String description, int playCount) {
-        return bookDao.update(url, description, playCount);
+    public int update(int id, String url, String description, int playCount) {
+        return bookDao.update(id, url, description, playCount);
     }
 }

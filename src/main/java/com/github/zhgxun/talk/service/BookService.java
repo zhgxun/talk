@@ -12,5 +12,5 @@ public interface BookService {
 
     List<BookEntity> any(String title, String author, String nickName);
 
-    int update(String url, String description, int playCount);
+    int update(int id, String url, String description, int playCount);
 }

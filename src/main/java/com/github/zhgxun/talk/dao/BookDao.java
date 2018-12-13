@@ -15,5 +15,5 @@ public interface BookDao {
 
     List<BookEntity> any(@Param("title") String title, @Param("author") String author, @Param("nickName") String nickName);
 
-    int update(@Param("url") String url, @Param("description") String description, @Param("playCount") int playCount);
+    int update(@Param("id") int id, @Param("url") String url, @Param("description") String description, @Param("playCount") int playCount);
 }

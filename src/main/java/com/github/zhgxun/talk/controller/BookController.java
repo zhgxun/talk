@@ -90,7 +90,8 @@ public class BookController {
             @ApiImplicitParam(name = "playCount", value = "播放次数", paramType = "query", dataType = "int")
     })
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public ResponseUtil<Integer> update(@RequestParam(name = "url", required = false) String url,
+    public ResponseUtil<Integer> update(@RequestParam(name = "id") @NotNull(message = "参数为空") int id,
+                                        @RequestParam(name = "url", required = false) String url,
                                         @RequestParam(name = "description", required = false) String description,
                                         @RequestParam(name = "playCount", required = false) int playCount) {
         try {
@@ -107,7 +108,7 @@ public class BookController {
             if (length + playCount < 0) {
                 throw new NormalException("参数缺失");
             }
-            return new ResponseUtil<>(bookManager.update(url, description, playCount));
+            return new ResponseUtil<>(bookManager.update(id, url, description, playCount));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }

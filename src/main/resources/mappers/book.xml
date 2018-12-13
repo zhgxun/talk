@@ -50,14 +50,14 @@
     <update id="update">
         UPDATE `book`
         <set>
-            <if test="url != null">
+            <if test="url != null and url != ''">
                 url = #{url},
             </if>
-            <if test="description != null">
+            <if test="description != null and description != ''">
                 description = #{description}
             </if>
-            <if test="playCount != null">
-                play_count = play_count + 1
+            <if test="playCount != null and playCount > 0">
+                play_count = play_count + #{playCount}
             </if>
         </set>
         WHERE id = #{id}
