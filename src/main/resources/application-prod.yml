@@ -1,0 +1,7 @@
+# 线上数据源配置, 不存储于github上
+spring:
+  datasource:
+    name: talk
+    url: jdbc:mysql://x.x.x.x:x/talk?useUnicode=true&zeroDateTimeBehavior=convertToNull
+    username: talk_w
+    password: xxxxxx

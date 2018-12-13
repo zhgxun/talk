@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分类';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='分类';
 
 /* 书 */
 CREATE TABLE IF NOT EXISTS `book` (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   PRIMARY KEY (`id`),
   KEY `title` (`title`),
   KEY `author` (`author`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='书';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='书';
 
 /* 用户基本信息, 不维护用户注册, 统一由第三方登陆即可 */
 CREATE TABLE IF NOT EXISTS `user` (
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `nick_name` (`nick_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 /* 认证 */
 CREATE TABLE IF NOT EXISTS `oauth` (
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `oauth` (
   KEY `user_id` (`user_id`),
   KEY `oauth_name` (`oauth_name`),
   KEY `oauth_id` (`oauth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='认证';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='认证';
 
 /* 详情 */
 CREATE TABLE IF NOT EXISTS `item` (
@@ -78,4 +78,4 @@ CREATE TABLE IF NOT EXISTS `item` (
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `book_id` (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='详情';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='详情';

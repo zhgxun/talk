@@ -4,11 +4,11 @@
 
     <groupId>com.github.zhgxun</groupId>
     <artifactId>talk</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>talk</name>
-    <description>收集整理国内外优秀的小说和名著，将文本翻译为音频，方便路上，出行途中也可欣赏自己喜爱的著作。</description>
+    <description>收集整理国内外优秀的小说和名著，将文本翻译为音频。</description>
     <url>https://github.com/zhgxun/talk</url>
 
     <parent>

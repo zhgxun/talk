@@ -17,10 +17,9 @@ hs_err_pid*
 
 # disable commit directory
 .DS_Store
-target
-!.mvn/wrapper/maven-wrapper.jar
 *.iml
 output
+target
 
 # Compiled class file
 *.class
@@ -28,9 +27,6 @@ output
 # Log file
 *.log
 log
-
-/target/
-!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated

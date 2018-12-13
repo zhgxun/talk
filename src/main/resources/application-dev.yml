@@ -1,4 +1,4 @@
-# 数据源配置
+# 本地数据源配置
 spring:
   datasource:
     name: talk
