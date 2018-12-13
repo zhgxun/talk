@@ -2,6 +2,8 @@ package com.github.zhgxun.talk.common.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -24,6 +26,11 @@ public class LogAspect {
     public void log() {
     }
 
+    /**
+     * 请求参数
+     *
+     * @param joinPoint 切入
+     */
     @Before("log()")
     public void doBefore(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -36,5 +43,27 @@ public class LogAspect {
                     joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
             log.info("ARGS : {}", Arrays.toString(joinPoint.getArgs()));
         }
+    }
+
+    /**
+     * 请求耗时
+     *
+     * @param joinPoint 切入
+     * @return 切入
+     */
+    @Around("log()")
+    public Object doAround(ProceedingJoinPoint joinPoint) {
+        long begin = System.currentTimeMillis();
+        try {
+            String method = joinPoint.getSignature().getName();
+            String className = joinPoint.getTarget().getClass().getName();
+            Object o = joinPoint.proceed();
+            log.info("AOP Around Func<doAround> Class<{}>.Method<{}> Cost<{}>ms",
+                    className, method, (System.currentTimeMillis() - begin));
+            return o;
+        } catch (Throwable e) {
+            log.error("", e);
+        }
+        return null;
     }
 }
