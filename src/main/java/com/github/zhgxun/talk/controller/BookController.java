@@ -83,7 +83,7 @@ public class BookController {
         }
     }
 
-    @ApiOperation(value = "图书更新", notes = "参数至少提供一个")
+    @ApiOperation(value = "图书更新", notes = "主要用于递增图书播放次数, 参数至少提供一个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "url", value = "图书地址", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "description", value = "图书描述", paramType = "query", dataType = "String"),
@@ -109,6 +109,17 @@ public class BookController {
                 throw new NormalException("参数缺失");
             }
             return new ResponseUtil<>(bookManager.update(id, url, description, playCount));
+        } catch (Exception e) {
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "图书删除", notes = "删除图书及其关联的章节")
+    @ApiImplicitParam(name = "id", value = "图书标识", required = true, paramType = "query", dataType = "int")
+    @RequestMapping(path = "delete", method = RequestMethod.POST)
+    public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+        try {
+            return new ResponseUtil<>(bookManager.delete(id));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }

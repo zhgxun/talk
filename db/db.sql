@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `oauth` (
 /* 详情 */
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
+  `book_id` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '图书主键',
   `author` varchar(120) NOT NULL DEFAULT "" COMMENT '作者',
   `name` varchar(120) NOT NULL DEFAULT "" COMMENT '名称',
   `duration` varchar(255) NOT NULL DEFAULT "" COMMENT '描述',
@@ -75,5 +76,6 @@ CREATE TABLE IF NOT EXISTS `item` (
   `updater` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建者',
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='详情';

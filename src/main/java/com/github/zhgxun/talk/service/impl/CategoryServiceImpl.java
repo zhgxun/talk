@@ -29,4 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryEntity> any(int id, int parentId, int level) {
         return categoryDao.any(id, parentId, level);
     }
+
+    @Override
+    public int delete(int id) {
+        return categoryDao.delete(id);
+    }
 }

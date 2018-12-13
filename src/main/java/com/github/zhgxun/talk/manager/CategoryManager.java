@@ -12,4 +12,6 @@ public interface CategoryManager {
     CategoryBean findOne(int id, String name);
 
     List<CategoryBean> any();
+
+    int delete(int id);
 }

@@ -62,4 +62,8 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <delete id="delete">
+        DELETE FROM `book` WHERE id = #{id}
+    </delete>
 </mapper>

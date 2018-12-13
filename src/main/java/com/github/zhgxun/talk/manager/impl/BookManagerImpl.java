@@ -41,4 +41,9 @@ public class BookManagerImpl implements BookManager {
     public int update(int id, String url, String description, int playCount) {
         return bookService.update(id, url, description, playCount);
     }
+
+    @Override
+    public int delete(int id) {
+        return bookService.delete(id);
+    }
 }

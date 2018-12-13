@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.zhgxun.talk.dao.ItemDao">
+    <sql id="columns">
+        id,
+        book_id,
+        author,
+        `name`,
+        duration,
+        format,
+        url,
+        description
+    </sql>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="com.github.zhgxun.talk.entity.ItemEntity">
+        INSERT INTO `item`(`book_id`, `author`, `name`, `duration`, `format`, `url`, `description`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{bookId}, #{author}, #{name}, #{duration}, #{format}, #{url}, #{description}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="findOne" resultMap="com.github.zhgxun.talk.entity.ItemEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM `item` WHERE id = #{id}
+    </select>
+
+    <select id="any" resultMap="com.github.zhgxun.talk.entity.ItemEntity">
+        SELECT
+        <include refid="columns"/>
+        FROM `item`
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="bookId != null and bookId > 0">
+                AND book_id = #{bookId}
+            </if>
+            <if test="author != null and author != ''">
+                AND author = #{author}
+            </if>
+            <if test="name != null and name != ''">
+                AND `name` = #{name}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delete">
+        DELETE FROM `item`
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="bookId != null and bookId > 0">
+                AND book_id = #{bookId}
+            </if>
+        </where>
+    </delete>
+</mapper>

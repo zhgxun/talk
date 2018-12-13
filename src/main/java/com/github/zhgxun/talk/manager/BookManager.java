@@ -13,4 +13,6 @@ public interface BookManager {
     List<BookEntity> any(String title, String author, String nickName);
 
     int update(int id, String url, String description, int playCount);
+
+    int delete(int id);
 }

@@ -67,6 +67,11 @@ public class CategoryManagerImpl implements CategoryManager {
         return beans;
     }
 
+    @Override
+    public int delete(int id) {
+        return categoryService.delete(id);
+    }
+
     private CategoryBean depth(CategoryEntity entity) {
         if (entity.getLevel() == 3) {
             CategoryEntity entity1 = categoryService.findOne(entity.getParentId(), null);

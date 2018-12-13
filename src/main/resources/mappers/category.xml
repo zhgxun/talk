@@ -47,4 +47,8 @@
             </if>
         </where>
     </select>
+
+    <delete id="delete">
+        DELETE FROM `category` WHERE id = #{id}
+    </delete>
 </mapper>

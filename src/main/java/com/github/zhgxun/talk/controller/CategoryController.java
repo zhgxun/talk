@@ -37,7 +37,7 @@ public class CategoryController {
      * @param level    类目层级, 目前支持1-3级
      * @return 添加成功的类目详情
      */
-    @ApiOperation(value = "添加类目")
+    @ApiOperation(value = "添加类目", notes = "新建类目")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId", value = "父类目标识, 根类目为0", defaultValue = "0", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "name", value = "类目名称, 不允许重复, 全局唯一", required = true, paramType = "query", dataType = "String"),
@@ -70,7 +70,7 @@ public class CategoryController {
      * @param name 类目名称, 完全匹配
      * @return 局部类目树
      */
-    @ApiOperation("类目详情")
+    @ApiOperation(value = "类目详情", notes = "类目信息, 关联展示, 从高层级到低层级")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "类目标识", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "name", value = "类目名称, 完全匹配", paramType = "query", dataType = "String")
@@ -91,13 +91,24 @@ public class CategoryController {
      *
      * @return 全量类目树
      */
-    @ApiOperation("获取类目树")
+    @ApiOperation(value = "获取类目树", notes = "类目列表")
     @RequestMapping(path = "/any", method = RequestMethod.GET)
     public ResponseUtil<List<CategoryBean>> any() {
         try {
             return new ResponseUtil<>(categoryManager.any());
         } catch (Exception e) {
             log.error("", e);
+            return new ResponseUtil<>(Code.FAILED, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "类目删除", notes = "只删除类目, 不关联删除")
+    @ApiImplicitParam(name = "id", value = "类目标识", required = true, paramType = "query", dataType = "int")
+    @RequestMapping(path = "delete", method = RequestMethod.POST)
+    public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+        try {
+            return new ResponseUtil<>(categoryManager.delete(id));
+        } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
     }

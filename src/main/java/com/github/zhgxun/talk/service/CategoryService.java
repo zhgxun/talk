@@ -11,4 +11,6 @@ public interface CategoryService {
     CategoryEntity findOne(int id, String name);
 
     List<CategoryEntity> any(int id, int parentId, int level);
+
+    int delete(int id);
 }
