@@ -26,7 +26,7 @@ function start() {
     else
         echo "${APP}: starting the service..."
         java -version
-        java -Xms1024m -Xmx1024m -jar ../lib/${APP}
+        java -Xms1024m -Xmx1024m -Dspring.profiles.active=prod -jar ../lib/${APP}
     fi
 }
 

@@ -5,3 +5,13 @@ spring:
     url: jdbc:mysql://x.x.x.x:x/talk?useUnicode=true&zeroDateTimeBehavior=convertToNull
     username: talk_w
     password: xxxxxx
+
+# 日志
+logging:
+  # 日志级别
+  level:
+    com:
+      github:
+        zhgxun:
+          talk:
+            dao: info
