@@ -44,18 +44,18 @@ public class CategoryManagerImpl implements CategoryManager {
     public List<CategoryBean> any() {
         List<CategoryBean> beans = new ArrayList<>();
         // 1. 所有一级类目
-        List<CategoryEntity> entities = categoryService.any(0, 0, 1);
+        List<CategoryEntity> entities = categoryService.findAny(0, 0, 1);
         for (CategoryEntity entity : entities) {
             CategoryBean bean = new CategoryBean(
                     entity.getId(), entity.getParentId(), entity.getLevel(), entity.getName());
             // 2. 该一级类目下的所有二级类目
-            List<CategoryEntity> entities1 = categoryService.any(0, entity.getId(), 2);
+            List<CategoryEntity> entities1 = categoryService.findAny(0, entity.getId(), 2);
             for (CategoryEntity entity1 : entities1) {
                 CategoryBean bean1 = new CategoryBean(
                         entity1.getId(), entity1.getParentId(), entity1.getLevel(), entity1.getName());
                 bean.getChildren().add(bean1);
                 // 3. 该二级类目下的所有三级类目
-                List<CategoryEntity> entities2 = categoryService.any(0, entity1.getId(), 3);
+                List<CategoryEntity> entities2 = categoryService.findAny(0, entity1.getId(), 3);
                 for (CategoryEntity entity2 : entities2) {
                     CategoryBean bean2 = new CategoryBean(
                             entity2.getId(), entity2.getParentId(), entity2.getLevel(), entity2.getName());

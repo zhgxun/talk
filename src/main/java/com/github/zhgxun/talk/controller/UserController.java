@@ -65,9 +65,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "用户详情")
-    @ApiImplicitParam(name = "id", value = "用户标识", required = true, paramType = "query", dataType = "int")
+    @ApiImplicitParam(name = "id", value = "用户标识", defaultValue = "0", required = true, paramType = "query", dataType = "int")
     @RequestMapping(path = "/one", method = RequestMethod.GET)
-    public ResponseUtil<UserEntity> one(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+    public ResponseUtil<UserEntity> one(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id) {
         try {
             return new ResponseUtil<>(userManager.findOne(id));
         } catch (Exception e) {
@@ -78,14 +78,14 @@ public class UserController {
 
     @ApiOperation(value = "用户列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户标识", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "用户标识", defaultValue = "0", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "nickName", value = "用户昵称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "type", value = "用户第三方平台类型", paramType = "query", dataType = "String")
     })
     @RequestMapping(path = "/any", method = RequestMethod.GET)
     public ResponseUtil<List<UserEntity>> any(@RequestParam(name = "id", required = false, defaultValue = "0") int id,
-                                              @RequestParam(name = "nickName", required = false, defaultValue = "") String nickName,
-                                              @RequestParam(name = "type", required = false, defaultValue = "") UserType type) {
+                                              @RequestParam(name = "nickName", required = false) String nickName,
+                                              @RequestParam(name = "type", required = false) UserType type) {
         try {
             return new ResponseUtil<>(userManager.findAny(id, nickName, type));
         } catch (Exception e) {
@@ -95,9 +95,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "用户删除", notes = "慎用, 通常无需使用, 近删除用户信息, 不删除用户相关数据")
-    @ApiImplicitParam(name = "id", value = "用户标识", required = true, paramType = "query", dataType = "int")
+    @ApiImplicitParam(name = "id", value = "用户标识", defaultValue = "0", required = true, paramType = "query", dataType = "int")
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ResponseUtil<Boolean> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+    public ResponseUtil<Boolean> delete(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id) {
         try {
             return new ResponseUtil<>(userManager.delete(id) > 0);
         } catch (Exception e) {

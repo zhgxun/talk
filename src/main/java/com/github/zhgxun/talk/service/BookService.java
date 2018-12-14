@@ -8,9 +8,9 @@ public interface BookService {
 
     BookEntity add(BookEntity entity);
 
-    BookEntity findOne(int id, String title);
+    BookEntity findOne(int id, int categoryId, String title);
 
-    List<BookEntity> any(String title, String author, String nickName);
+    List<BookEntity> findAny(int categoryId, String title, String author, String nickName);
 
     int update(int id, String url, String description, int playCount);
 

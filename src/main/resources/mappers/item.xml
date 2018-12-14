@@ -3,7 +3,7 @@
 <mapper namespace="com.github.zhgxun.talk.dao.ItemDao">
     <sql id="columns">
         id,
-        book_id,
+        book_id as "bookId",
         author,
         `name`,
         duration,
@@ -18,13 +18,13 @@
         VALUES (#{bookId}, #{author}, #{name}, #{duration}, #{format}, #{url}, #{description}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
 
-    <select id="findOne" resultMap="com.github.zhgxun.talk.entity.ItemEntity">
+    <select id="findOne" resultType="com.github.zhgxun.talk.entity.ItemEntity">
         SELECT
         <include refid="columns"/>
         FROM `item` WHERE id = #{id}
     </select>
 
-    <select id="any" resultMap="com.github.zhgxun.talk.entity.ItemEntity">
+    <select id="findAny" resultType="com.github.zhgxun.talk.entity.ItemEntity">
         SELECT
         <include refid="columns"/>
         FROM `item`

@@ -13,7 +13,7 @@ public interface CategoryDao {
 
     CategoryEntity findOne(@Param("id") int id, @Param("name") String name);
 
-    List<CategoryEntity> any(@Param("id") int id, @Param("parentId") int parentId, @Param("level") int level);
+    List<CategoryEntity> findAny(@Param("id") int id, @Param("parentId") int parentId, @Param("level") int level);
 
     int delete(@Param("id") int id);
 }

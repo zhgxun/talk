@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 /* 书 */
 CREATE TABLE IF NOT EXISTS `book` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
+  `category_id` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '类目主键',
   `title` varchar(255) NOT NULL DEFAULT "" COMMENT '标题',
   `author` varchar(120) NOT NULL DEFAULT "" COMMENT '作者',
   `nick_name` varchar(120) NOT NULL DEFAULT "" COMMENT '主播昵称',
@@ -25,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
   KEY `title` (`title`),
   KEY `author` (`author`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='书';

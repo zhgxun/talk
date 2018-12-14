@@ -31,37 +31,44 @@ public class BookController {
 
     @ApiOperation(value = "添加图书", notes = "图书名称需保持唯一, 会使用来作为去重策略")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "categoryId", value = "图书所属类目", defaultValue = "0", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "title", value = "图书标题", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "author", value = "图书作者", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "nickName", value = "整理作者昵称, 书本可为第三方平台抓取, 或者自行通过AI翻译", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "url", value = "图书链接或者有声读物原始链接", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "description", value = "图书描述, 可为抓取或者自行补充的内容", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "playCount", value = "图书播放次数, 无播放时为0", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "playCount", value = "图书播放次数, 无播放时为0", defaultValue = "0", required = true, paramType = "query", dataType = "int"),
     })
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public ResponseUtil<BookEntity> add(@RequestParam(name = "title") @NotNull(message = "参数为空") String title,
+    public ResponseUtil<BookEntity> add(@RequestParam(name = "categoryId", defaultValue = "0") @NotNull(message = "参数为空") int categoryId,
+                                        @RequestParam(name = "title") @NotNull(message = "参数为空") String title,
                                         @RequestParam(name = "author") @NotNull(message = "参数为空") String author,
                                         @RequestParam(name = "nickName") @NotNull(message = "参数为空") String nickName,
                                         @RequestParam(name = "url") @NotNull(message = "参数为空") String url,
                                         @RequestParam(name = "description") @NotNull(message = "参数为空") String description,
-                                        @RequestParam(name = "playCount") @NotNull(message = "参数为空") int playCount) {
+                                        @RequestParam(name = "playCount", defaultValue = "0") @NotNull(message = "参数为空") int playCount) {
         try {
-            return new ResponseUtil<>(bookManager.add(title.trim(), author.trim(), nickName.trim(), url.trim(), description.trim(), playCount));
+            return new ResponseUtil<>(bookManager.add(categoryId, title.trim(), author.trim(), nickName.trim(), url.trim(), description.trim(), playCount));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
     }
 
-    @ApiOperation(value = "图书详情", notes = "图书详情")
+    @ApiOperation(value = "图书详情", notes = "图书详情, 图书标识和标题至少提供一个获取一本书的信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "图书标识", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "图书标识", defaultValue = "0", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "categoryId", value = "图书所属类目", defaultValue = "0", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "title", value = "图书标题", paramType = "query", dataType = "String")
     })
     @RequestMapping(path = "/one", method = RequestMethod.GET)
-    public ResponseUtil<BookEntity> one(@RequestParam(name = "id", required = false) int id,
+    public ResponseUtil<BookEntity> one(@RequestParam(name = "id", required = false, defaultValue = "0") int id,
+                                        @RequestParam(name = "categoryId", required = false, defaultValue = "0") int categoryId,
                                         @RequestParam(name = "title", required = false) String title) {
         try {
-            return new ResponseUtil<>(bookManager.findOne(id, title));
+            if ((((title == null) ? 0 : title.trim().length()) + id) <= 0) {
+                throw new NormalException(Message.ERROR);
+            }
+            return new ResponseUtil<>(bookManager.findOne(id, categoryId, title));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
@@ -69,16 +76,18 @@ public class BookController {
 
     @ApiOperation(value = "图书列表", notes = "根据条件筛选图书列表, 无条件时为全部图书列表")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "categoryId", value = "图书所属类目", defaultValue = "0", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "title", value = "图书标题", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "author", value = "图书作者", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "nickName", value = "整理作者昵称", paramType = "query", dataType = "String")
     })
     @RequestMapping(path = "/any", method = RequestMethod.GET)
-    public ResponseUtil<List<BookEntity>> any(@RequestParam(name = "title", required = false) String title,
+    public ResponseUtil<List<BookEntity>> any(@RequestParam(name = "categoryId", required = false, defaultValue = "0") int categoryId,
+                                              @RequestParam(name = "title", required = false) String title,
                                               @RequestParam(name = "author", required = false) String author,
                                               @RequestParam(name = "nickName", required = false) String nickName) {
         try {
-            return new ResponseUtil<>(bookManager.any(title, author, nickName));
+            return new ResponseUtil<>(bookManager.any(categoryId, title, author, nickName));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());
         }
@@ -86,15 +95,16 @@ public class BookController {
 
     @ApiOperation(value = "图书更新", notes = "主要用于递增图书播放次数, 参数至少提供一个")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "图书标识", defaultValue = "0", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "url", value = "图书地址", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "description", value = "图书描述", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "playCount", value = "播放次数", paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "playCount", value = "播放次数", defaultValue = "0", paramType = "query", dataType = "int")
     })
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public ResponseUtil<Integer> update(@RequestParam(name = "id") @NotNull(message = "参数为空") int id,
+    public ResponseUtil<Integer> update(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id,
                                         @RequestParam(name = "url", required = false) String url,
                                         @RequestParam(name = "description", required = false) String description,
-                                        @RequestParam(name = "playCount", required = false) int playCount) {
+                                        @RequestParam(name = "playCount", required = false, defaultValue = "0") int playCount) {
         try {
             int length = 0;
             if (url == null && description == null && playCount < 0) {
@@ -116,13 +126,10 @@ public class BookController {
     }
 
     @ApiOperation(value = "图书删除", notes = "删除图书及其关联的章节")
-    @ApiImplicitParam(name = "id", value = "图书标识", required = true, paramType = "query", dataType = "int")
+    @ApiImplicitParam(name = "id", value = "图书标识", defaultValue = "0", required = true, paramType = "query", dataType = "int")
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+    public ResponseUtil<Integer> delete(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id) {
         try {
-            if (id < 0) {
-                throw new NormalException(Message.ERROR);
-            }
             return new ResponseUtil<>(bookManager.delete(id));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());

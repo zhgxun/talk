@@ -31,7 +31,7 @@
         </where>
     </select>
 
-    <select id="any" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
+    <select id="findAny" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
         FROM category

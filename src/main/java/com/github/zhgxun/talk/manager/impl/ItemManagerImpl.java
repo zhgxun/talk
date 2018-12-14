@@ -23,7 +23,7 @@ public class ItemManagerImpl implements ItemManager {
         entity.setDuration(duration);
         entity.setFormat(format);
         entity.setUrl(url);
-        entity.setDuration(description);
+        entity.setDescription(description);
         return itemService.add(entity);
     }
 
@@ -34,7 +34,7 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public List<ItemEntity> any(int id, int bookId, String author, String name) {
-        return itemService.any(id, bookId, author, name);
+        return itemService.findAny(id, bookId, author, name);
     }
 
     @Override

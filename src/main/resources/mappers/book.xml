@@ -3,6 +3,7 @@
 <mapper namespace="com.github.zhgxun.talk.dao.BookDao">
     <sql id="columns">
         id,
+        category_id as "categoryId",
         title,
         author,
         nick_name as "nickName",
@@ -12,8 +13,8 @@
     </sql>
 
     <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO `book`(`title`, `author`, `nick_name`, `url`, `description`, `play_count`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{title}, #{author}, #{nickName}, #{url}, #{description}, #{playCount}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+        INSERT INTO `book`(`category_id`, `title`, `author`, `nick_name`, `url`, `description`, `play_count`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{categoryId}, #{title}, #{author}, #{nickName}, #{url}, #{description}, #{playCount}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
 
     <select id="findOne" resultType="com.github.zhgxun.talk.entity.BookEntity">
@@ -24,18 +25,25 @@
             <if test="id != null and id > 0">
                 id = #{id}
             </if>
+            <if test="categoryId != null and categoryId > 0">
+                AND category_id = #{categoryId}
+            </if>
             <if test="title != null and title != ''">
                 AND title = #{title}
             </if>
         </where>
     </select>
 
-    <select id="any" resultType="com.github.zhgxun.talk.entity.BookEntity">
+    <select id="findAny" resultType="com.github.zhgxun.talk.entity.BookEntity">
         SELECT
+        <include refid="columns"/>
         FROM `book`
         <where>
+            <if test="categoryId != null and categoryId > 0">
+                category_id = #{categoryId}
+            </if>
             <if test="title != null and title != ''">
-                title = #{title}
+                AND title = #{title}
             </if>
             <if test="author != null and author != ''">
                 AND author = #{author}

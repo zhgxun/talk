@@ -1,6 +1,5 @@
 package com.github.zhgxun.talk.controller;
 
-import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.util.ResponseUtil;
 import com.github.zhgxun.talk.config.Code;
 import com.github.zhgxun.talk.config.Constant;
@@ -46,9 +45,9 @@ public class CategoryController {
             @ApiImplicitParam(name = "level", value = "类目层级, 目前支持1-3级", defaultValue = "1", required = true, paramType = "query", dataType = "int")
     })
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public ResponseUtil<CategoryEntity> add(@RequestParam(name = "parentId") @NotNull(message = "参数为空") int parentId,
+    public ResponseUtil<CategoryEntity> add(@RequestParam(name = "parentId", defaultValue = "0") @NotNull(message = "参数为空") int parentId,
                                             @RequestParam(name = "name") @NotNull(message = "参数为空") String name,
-                                            @RequestParam(name = "level") @NotNull(message = "参数为空") int level) {
+                                            @RequestParam(name = "level", defaultValue = "1") @NotNull(message = "参数为空") int level) {
         try {
             if (parentId < Constant.MIN_PARENT
                     || level < Constant.MIN_LEVEL
@@ -74,11 +73,11 @@ public class CategoryController {
      */
     @ApiOperation(value = "类目详情", notes = "类目信息, 关联展示, 从高层级到低层级")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "类目标识", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "类目标识", defaultValue = "0", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "name", value = "类目名称, 完全匹配", paramType = "query", dataType = "String")
     })
     @RequestMapping(path = "/one", method = RequestMethod.GET)
-    public ResponseUtil<CategoryBean> one(@RequestParam(name = "id") @NotNull(message = "参数为空") int id,
+    public ResponseUtil<CategoryBean> one(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id,
                                           @RequestParam(name = "name", required = false, defaultValue = "") String name) {
         try {
             return new ResponseUtil<>(categoryManager.findOne(id, name.trim()));
@@ -105,13 +104,10 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "类目删除", notes = "只删除类目, 不关联删除")
-    @ApiImplicitParam(name = "id", value = "类目标识", required = true, paramType = "query", dataType = "int")
+    @ApiImplicitParam(name = "id", value = "类目标识", defaultValue = "0", required = true, paramType = "query", dataType = "int")
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ResponseUtil<Integer> delete(@RequestParam(name = "id") @NotNull(message = "参数为空") int id) {
+    public ResponseUtil<Integer> delete(@RequestParam(name = "id", defaultValue = "0") @NotNull(message = "参数为空") int id) {
         try {
-            if (id < 0) {
-                throw new NormalException(Message.ERROR);
-            }
             return new ResponseUtil<>(categoryManager.delete(id));
         } catch (Exception e) {
             return new ResponseUtil<>(Code.FAILED, e.getMessage());

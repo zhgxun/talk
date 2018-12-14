@@ -10,7 +10,7 @@ public interface ItemService {
 
     ItemEntity findOne(int id);
 
-    List<ItemEntity> any(int id, int bookId, String author, String name);
+    List<ItemEntity> findAny(int id, int bookId, String author, String name);
 
     int delete(int id, int bookId);
 }

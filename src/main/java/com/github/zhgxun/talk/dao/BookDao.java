@@ -11,9 +11,9 @@ public interface BookDao {
 
     int add(BookEntity entity);
 
-    BookEntity findOne(@Param("id") int id, @Param("title") String title);
+    BookEntity findOne(@Param("id") int id, @Param("categoryId") int categoryId, @Param("title") String title);
 
-    List<BookEntity> any(@Param("title") String title, @Param("author") String author, @Param("nickName") String nickName);
+    List<BookEntity> findAny(@Param("categoryId") int categoryId, @Param("title") String title, @Param("author") String author, @Param("nickName") String nickName);
 
     int update(@Param("id") int id, @Param("url") String url, @Param("description") String description, @Param("playCount") int playCount);
 

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class BookEntity extends BaseEntity {
+    private int categoryId;
     private String title;
     private String author;
     private String nickName;

@@ -15,8 +15,9 @@ public class BookManagerImpl implements BookManager {
     private BookService bookService;
 
     @Override
-    public BookEntity add(String title, String author, String nickName, String url, String description, int playCount) {
+    public BookEntity add(int categoryId, String title, String author, String nickName, String url, String description, int playCount) {
         BookEntity entity = new BookEntity();
+        entity.setCategoryId(categoryId);
         entity.setTitle(title);
         entity.setAuthor(author);
         entity.setNickName(nickName);
@@ -28,13 +29,13 @@ public class BookManagerImpl implements BookManager {
     }
 
     @Override
-    public BookEntity findOne(int id, String title) {
-        return bookService.findOne(id, title);
+    public BookEntity findOne(int id, int categoryId, String title) {
+        return bookService.findOne(id, categoryId, title);
     }
 
     @Override
-    public List<BookEntity> any(String title, String author, String nickName) {
-        return bookService.any(title, author, nickName);
+    public List<BookEntity> any(int categoryId, String title, String author, String nickName) {
+        return bookService.findAny(categoryId, title, author, nickName);
     }
 
     @Override

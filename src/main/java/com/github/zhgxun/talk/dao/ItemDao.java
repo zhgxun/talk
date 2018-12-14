@@ -13,7 +13,7 @@ public interface ItemDao {
 
     ItemEntity findOne(@Param("id") int id);
 
-    List<ItemEntity> any(@Param("id") int id, @Param("bookId") int bookId, @Param("author") String author, @Param("name") String name);
+    List<ItemEntity> findAny(@Param("id") int id, @Param("bookId") int bookId, @Param("author") String author, @Param("name") String name);
 
     int delete(@Param("id") int id, @Param("bookId") int bookId);
 }
