@@ -17,13 +17,17 @@ public interface UserDao {
      */
     int add(UserEntity entity);
 
+    int update(UserEntity entity);
+
     /**
-     * 通过主键查找用户
+     * 查找用户
      *
-     * @param id 主键ID
-     * @return 用户
+     * @param id      用户标识
+     * @param oauthId 用户三方平台标识
+     * @param type    用户三方平台
+     * @return 用户信息
      */
-    UserEntity findOne(@Param("id") int id);
+    UserEntity findOne(@Param("id") int id, @Param("oauthId") String oauthId, @Param("type") int type);
 
     /**
      * 根据主键或者昵称获取用户

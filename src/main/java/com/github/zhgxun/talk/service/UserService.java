@@ -16,7 +16,7 @@ public interface UserService {
 
     UserEntity add(UserEntity entity, ThirdUserPart part);
 
-    UserEntity findOne(int id);
+    UserEntity findOne(int id, String oauthId, int type);
 
     List<UserEntity> findAny(int id, String nickName, int type);
 

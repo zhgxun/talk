@@ -8,7 +8,9 @@
     -->
     <sql id="columns">
         id,
+        oauth_id as "oauthId"
         nick_name,
+        home,
         url,
         role,
         `type`
@@ -19,7 +21,10 @@
     -->
     <resultMap id="entity" type="com.github.zhgxun.talk.entity.UserEntity">
         <id property="id" column="id"/>
+        <result property="oauthId" column="oauth_id"/>
         <result property="nickName" column="nick_name"/>
+        <result property="home" column="home"/>
+        <result property="url" column="url"/>
         <result property="role" column="role"
                 typeHandler="com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler"/>
         <result property="type" column="type"
@@ -35,8 +40,8 @@
     -->
     <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
             parameterType="com.github.zhgxun.talk.entity.UserEntity">
-        INSERT INTO `user`(`nick_name`, `role`, `type`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{nickName}, #{role, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{type, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+        INSERT INTO `user`(`oauth_id`, `home`, `url`, `nick_name`, `role`, `type`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{oauthId}, #{home}, #{url}, #{nickName}, #{role, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{type, typeHandler=com.github.zhgxun.talk.common.enums.ExtEnumOrdinalTypeHandler}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
 
     <!--
@@ -47,7 +52,17 @@
         SELECT
         <include refid="columns"/>
         FROM `user`
-        WHERE id = #{id}
+        <where>
+            <if test="id != null and id > 0">
+                id = #{id}
+            </if>
+            <if test="oauthId != null and oauthId != ''">
+                AND oauth_id = #{oauthId}
+            </if>
+            <if test="type != null and type > 0">
+                AND `type` = #{type}
+            </if>
+        </where>
     </select>
 
     <!--
@@ -71,6 +86,34 @@
             </if>
         </where>
     </select>
+
+    <update id="update" parameterType="com.github.zhgxun.talk.entity.UserEntity">
+        UPDATE
+        <set>
+            <if test="home != null and home != ''">
+                home = #{home},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="creator != null and creator > 0">
+                creator = #{creator},
+            </if>
+            <if test="updater != null and updater > 0">
+                updater = #{updater},
+            </if>
+            <if test="createTime != null and createTime > 0">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null and updateTime > 0">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <delete id="delete">
         DELETE FROM `user` WHERE id = #{id}

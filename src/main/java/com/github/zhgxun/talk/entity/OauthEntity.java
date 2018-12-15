@@ -6,7 +6,6 @@ import lombok.Data;
 public class OauthEntity extends BaseEntity {
     private int userId;
     private String oauthName;
-    private String oauthId;
     private String oauthAccessToken;
     private int oauthExpires;
 }

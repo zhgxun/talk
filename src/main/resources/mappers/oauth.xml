@@ -3,9 +3,45 @@
 <mapper namespace="com.github.zhgxun.talk.dao.OauthDao">
     <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id"
             parameterType="com.github.zhgxun.talk.entity.OauthEntity">
-        INSERT INTO `oauth`(`user_id`, `oauth_name`, `oauth_id`, `oauth_access_token`, `oauth_expires`, `creator`, `updater`, `create_time`, `update_time`)
-        VALUES (#{userId}, #{oauthName}, #{oauthId}, #{oauthAccessToken}, #{oauthExpires}, #{creator}, #{updater}, #{createTime}, #{updateTime})
+        INSERT INTO `oauth`(`user_id`, `oauth_name`, `oauth_access_token`, `oauth_expires`, `creator`, `updater`, `create_time`, `update_time`)
+        VALUES (#{userId}, #{oauthName}, #{oauthAccessToken}, #{oauthExpires}, #{creator}, #{updater}, #{createTime}, #{updateTime})
     </insert>
+
+    <select id="findOne" parameterType="com.github.zhgxun.talk.entity.OauthEntity">
+        SELECT
+            id,
+            user_id as "userId",
+            oauth_name as "oauthName",
+            oauth_access_token as "oauthAccessToken",
+            oauth_expires as "oauthExpires"
+        FROM oauth
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="update" parameterType="com.github.zhgxun.talk.entity.OauthEntity">
+        UPDATE
+        <set>
+            <if test="oauthAccessToken != null and oauthAccessToken > 0">
+                oauth_access_token = #{oauthAccessToken},
+            </if>
+            <if test="oauthExpires != null and oauthExpires > 0">
+                oauth_expires = #{oauthExpires},
+            </if>
+            <if test="creator != null and creator > 0">
+                creator = #{creator},
+            </if>
+            <if test="updater != null and updater > 0">
+                updater = #{updater},
+            </if>
+            <if test="createTime != null and createTime > 0">
+                create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime > 0">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <delete id="delete">
         DELETE FROM `oauth` WHERE user_id = #{userId}

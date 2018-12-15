@@ -34,7 +34,9 @@ CREATE TABLE IF NOT EXISTS `book` (
 /* 用户基本信息, 不维护用户注册, 统一由第三方登陆即可 */
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
+  `oauth_id` varchar(120) NOT NULL DEFAULT "" COMMENT '认证平台标识, 同认证平台一起去重用户',
   `nick_name` varchar(120) NOT NULL DEFAULT "" COMMENT '昵称',
+  `home` varchar(255) NOT NULL DEFAULT "" COMMENT '三方平台用户主页地址',
   `url` varchar(255) NOT NULL DEFAULT "" COMMENT '头像地址',
   `role` tinyint(1) NOT NULL DEFAULT 2 COMMENT '角色, 1为管理员, 2为普通用户',
   `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '认证方式, 目前仅1:QQ,2:微博,3:微信',
@@ -43,7 +45,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `nick_name` (`nick_name`)
+  KEY `nick_name` (`nick_name`),
+  KEY `oauth_id_type` (`oauth_id`, `type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 /* 认证 */
@@ -51,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `oauth` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增标识',
   `user_id` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '用户基础标识',
   `oauth_name` varchar(10) NOT NULL DEFAULT "" COMMENT '认证平台名称QQ,微博,微信',
-  `oauth_id` varchar(10) NOT NULL DEFAULT "" COMMENT '认证平台标识',
   `oauth_access_token` varchar(10) NOT NULL DEFAULT "" COMMENT '认证平台token',
   `oauth_expires` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '认证平台过期时间',
   `creator` int(11) unsigned NOT NULL DEFAULT 0 COMMENT '创建者',

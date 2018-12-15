@@ -1,12 +1,13 @@
 package com.github.zhgxun.talk.common.processor.impl;
 
 import com.github.zhgxun.talk.common.processor.LoginProcessor;
-import com.github.zhgxun.talk.entity.UserEntity;
+import com.github.zhgxun.talk.common.processor.bean.QqAccessToken;
+import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 
 /**
  * QQ登陆
  */
-public class QqLoginProcessor implements LoginProcessor {
+public class QqLoginProcessor implements LoginProcessor<QqAccessToken> {
 
     @Override
     public String accessUrl(String url) {
@@ -19,12 +20,12 @@ public class QqLoginProcessor implements LoginProcessor {
     }
 
     @Override
-    public String accessToken(String code) {
+    public QqAccessToken accessToken(String code) {
         return null;
     }
 
     @Override
-    public UserEntity userInfo(String accessToken) {
+    public ThirdUserPart userInfo(QqAccessToken accessToken) {
         return null;
     }
 }

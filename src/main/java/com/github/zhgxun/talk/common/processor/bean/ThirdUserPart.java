@@ -8,11 +8,10 @@ import lombok.Data;
 @Data
 public class ThirdUserPart {
     private String name;
+    private String home;
     private String url;
     private String accessToken;
     private int remindIn;
     private int expiresIn;
     private String oauthId;
-    private String oauthAccessToken;
-    private int oauthExpires;
 }

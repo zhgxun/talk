@@ -1,11 +1,13 @@
 package com.github.zhgxun.talk.common.processor;
 
-import com.github.zhgxun.talk.entity.UserEntity;
+import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 
 /**
  * 用户登陆处理器
+ *
+ * @param <T>
  */
-public interface LoginProcessor {
+public interface LoginProcessor<T> {
     /**
      * 1. 跳转登陆授权页面
      *
@@ -28,13 +30,13 @@ public interface LoginProcessor {
      * @param code 通过code标识获取第三方网站访问权限access token
      * @return 第三方提供的访问权限access token
      */
-    String accessToken(String code);
+    T accessToken(String code);
 
     /**
      * 4. 查询用户基本信息
      *
      * @param accessToken 第三方网站提供的访问权限
-     * @return 主动查询用户信息, 完成登陆
+     * @return 查询用户信息, 完成登陆
      */
-    UserEntity userInfo(String accessToken);
+    ThirdUserPart userInfo(T accessToken);
 }

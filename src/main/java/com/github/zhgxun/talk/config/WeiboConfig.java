@@ -13,7 +13,9 @@ public class WeiboConfig {
     // 获取认证后的code信, 并获取access_token信息
     public static final String TOKEN = "oauth2/access_token";
     // 通过access_token获取用户基本信息, 昵称头像等即可
-    // https://api.weibo.com/2/users/show.json
-    // http://open.weibo.com/wiki/2/users/show
     public static final String SHOW = "2/users/show.json";
+    // 重定向, 即第三方回调授权地址
+    public static final String REDIRECT_URI = "http://zhgxun.github.io/user/code?type=WEIBO";
+    // 微博个人主页地址
+    public static final String WEIBO_POST = "https://weibo.com";
 }

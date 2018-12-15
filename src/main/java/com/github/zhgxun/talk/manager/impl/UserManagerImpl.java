@@ -32,22 +32,27 @@ public class UserManagerImpl implements UserManager {
 
         // 2. 通过code查询用户权限和基本信息
         ThirdUserPart part = userService.part(type, codes);
+        if (part == null) {
+            return null;
+        }
 
         // 3. 保存用户相关
         UserEntity entity = new UserEntity();
+        entity.setOauthId(part.getOauthId());
         entity.setNickName(part.getName());
+        entity.setHome(part.getHome());
         entity.setUrl(part.getUrl());
         // 管理员通过修改数据行记录, 全部默认为普通用户
         entity.setRole(UserRole.NONE);
         entity.setType(type);
         userService.add(entity, part);
-        return userService.findOne(entity.getId());
+        return userService.findOne(entity.getId(), null, 0);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UserEntity findOne(int id) {
-        return userService.findOne(id);
+        return userService.findOne(id, null, 0);
     }
 
     @Override

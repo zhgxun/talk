@@ -6,9 +6,10 @@ import lombok.Data;
 
 @Data
 public class UserEntity extends BaseEntity {
+    private String oauthId;
     private String nickName;
+    private String home;
     private String url;
     private UserRole role;
     private UserType type;
-    private OauthEntity oauth;
 }

@@ -3,21 +3,20 @@ package com.github.zhgxun.talk.service.impl;
 import com.github.zhgxun.talk.common.enums.UserType;
 import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
+import com.github.zhgxun.talk.common.processor.bean.WeiboAccessToken;
 import com.github.zhgxun.talk.common.processor.impl.WeiboLoginProcessor;
-import com.github.zhgxun.talk.config.Constant;
+import com.github.zhgxun.talk.config.WeiboConfig;
 import com.github.zhgxun.talk.dao.OauthDao;
 import com.github.zhgxun.talk.dao.UserDao;
 import com.github.zhgxun.talk.entity.OauthEntity;
 import com.github.zhgxun.talk.entity.UserEntity;
 import com.github.zhgxun.talk.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -32,15 +31,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String accessUrl(UserType type) {
         switch (type) {
-            case WEIBO:
-                log.info("weibo");
-                return weiboLoginProcessor.accessUrl(Constant.AUTH_CODE);
-            case WEIXIN:
-                log.info("weixin");
-                return "weixin";
             case QQ:
-                log.info("qq");
                 return "qq";
+            case WEIBO:
+                return weiboLoginProcessor.accessUrl(WeiboConfig.REDIRECT_URI);
+            case WEIXIN:
+                return "weixin";
         }
         return null;
     }
@@ -48,11 +44,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public String code(UserType type, String code) {
         switch (type) {
+            case QQ:
+                return "";
             case WEIBO:
                 return weiboLoginProcessor.getCode(code);
             case WEIXIN:
-                return "";
-            case QQ:
                 return "";
         }
         return null;
@@ -60,14 +56,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ThirdUserPart part(UserType type, String code) {
-        return new ThirdUserPart();
+        switch (type) {
+            case QQ:
+                break;
+            case WEIBO:
+                WeiboAccessToken accessToken = weiboLoginProcessor.accessToken(code);
+                if (accessToken == null) {
+                    return null;
+                }
+                return weiboLoginProcessor.userInfo(accessToken);
+            case WEIXIN:
+                break;
+        }
+        return null;
     }
 
     @Override
     public UserEntity add(UserEntity entity, ThirdUserPart part) {
-        List<UserEntity> entities = findAny(0, entity.getNickName(), entity.getType().getValue());
-        if (entities.size() > 0) {
-            return entities.get(0);
+        UserEntity userEntity = findOne(0, entity.getOauthId(), entity.getType().getValue());
+        if (userEntity != null) {
+            // 更新信息即可
+            OauthEntity oauthEntity = oauthDao.findOne(entity.getId());
+            oauthEntity.setOauthAccessToken(part.getAccessToken());
+            oauthEntity.setOauthExpires(part.getExpiresIn());
+            update(entity, oauthEntity);
+            return userEntity;
         }
 
         userDao.add(entity);
@@ -87,16 +100,15 @@ public class UserServiceImpl implements UserService {
             default:
                 oauth.setOauthName("未知平台");
         }
-        oauth.setOauthId(part.getOauthId());
-        oauth.setOauthAccessToken(part.getOauthAccessToken());
-        oauth.setOauthExpires(part.getOauthExpires());
+        oauth.setOauthAccessToken(part.getAccessToken());
+        oauth.setOauthExpires(part.getExpiresIn());
         oauthDao.add(oauth);
         return entity;
     }
 
     @Override
-    public UserEntity findOne(int id) {
-        return userDao.findOne(id);
+    public UserEntity findOne(int id, String oauthId, int type) {
+        return userDao.findOne(id, oauthId, type);
     }
 
     @Override
@@ -104,9 +116,14 @@ public class UserServiceImpl implements UserService {
         return userDao.findAny(id, nickName, type);
     }
 
+    private void update(UserEntity entity, OauthEntity oauth) {
+        oauthDao.update(oauth);
+        userDao.update(entity);
+    }
+
     @Override
     public int delete(int id) {
-        UserEntity entity = userDao.findOne(id);
+        UserEntity entity = userDao.findOne(id, null, 0);
         if (entity == null) {
             throw new NormalException("用户不存在");
         }

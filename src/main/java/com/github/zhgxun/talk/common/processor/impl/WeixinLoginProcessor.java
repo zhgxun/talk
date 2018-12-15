@@ -1,12 +1,13 @@
 package com.github.zhgxun.talk.common.processor.impl;
 
 import com.github.zhgxun.talk.common.processor.LoginProcessor;
-import com.github.zhgxun.talk.entity.UserEntity;
+import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
+import com.github.zhgxun.talk.common.processor.bean.WeixinAccessToken;
 
 /**
  * 微信登陆
  */
-public class WeixinLoginProcessor implements LoginProcessor {
+public class WeixinLoginProcessor implements LoginProcessor<WeixinAccessToken> {
 
     @Override
     public String accessUrl(String url) {
@@ -19,12 +20,12 @@ public class WeixinLoginProcessor implements LoginProcessor {
     }
 
     @Override
-    public String accessToken(String code) {
+    public WeixinAccessToken accessToken(String code) {
         return null;
     }
 
     @Override
-    public UserEntity userInfo(String accessToken) {
+    public ThirdUserPart userInfo(WeixinAccessToken accessToken) {
         return null;
     }
 }

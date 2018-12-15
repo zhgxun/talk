@@ -9,5 +9,9 @@ public interface OauthDao {
 
     int add(OauthEntity entity);
 
+    int update(OauthEntity entity);
+
+    OauthEntity findOne(@Param("userId") int userId);
+
     int delete(@Param("userId") int userId);
 }
