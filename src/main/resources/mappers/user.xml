@@ -8,7 +8,7 @@
     -->
     <sql id="columns">
         id,
-        oauth_id as "oauthId"
+        oauth_id,
         nick_name,
         home,
         url,
@@ -88,7 +88,7 @@
     </select>
 
     <update id="update" parameterType="com.github.zhgxun.talk.entity.UserEntity">
-        UPDATE
+        UPDATE `user`
         <set>
             <if test="home != null and home != ''">
                 home = #{home},
@@ -99,14 +99,8 @@
             <if test="nickName != null and nickName != ''">
                 nick_name = #{nickName},
             </if>
-            <if test="creator != null and creator > 0">
-                creator = #{creator},
-            </if>
             <if test="updater != null and updater > 0">
                 updater = #{updater},
-            </if>
-            <if test="createTime != null and createTime > 0">
-                create_time = #{createTime},
             </if>
             <if test="updateTime != null and updateTime > 0">
                 update_time = #{updateTime}

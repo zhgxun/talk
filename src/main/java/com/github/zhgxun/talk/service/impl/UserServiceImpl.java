@@ -5,6 +5,7 @@ import com.github.zhgxun.talk.common.exception.NormalException;
 import com.github.zhgxun.talk.common.processor.bean.ThirdUserPart;
 import com.github.zhgxun.talk.common.processor.bean.WeiboAccessToken;
 import com.github.zhgxun.talk.common.processor.impl.WeiboLoginProcessor;
+import com.github.zhgxun.talk.common.util.DateUtil;
 import com.github.zhgxun.talk.config.WeiboConfig;
 import com.github.zhgxun.talk.dao.OauthDao;
 import com.github.zhgxun.talk.dao.UserDao;
@@ -75,10 +76,12 @@ public class UserServiceImpl implements UserService {
     public UserEntity add(UserEntity entity, ThirdUserPart part) {
         UserEntity userEntity = findOne(0, entity.getOauthId(), entity.getType().getValue());
         if (userEntity != null) {
-            // 更新信息即可
-            OauthEntity oauthEntity = oauthDao.findOne(entity.getId());
+            entity.setId(userEntity.getId());
+
+            OauthEntity oauthEntity = oauthDao.findOne(userEntity.getId());
             oauthEntity.setOauthAccessToken(part.getAccessToken());
             oauthEntity.setOauthExpires(part.getExpiresIn());
+            oauthEntity.setUpdateTime(DateUtil.getTimeStamp());
             update(entity, oauthEntity);
             return userEntity;
         }

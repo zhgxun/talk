@@ -7,6 +7,8 @@ import com.github.zhgxun.talk.manager.bean.CategoryBean;
 import com.github.zhgxun.talk.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class CategoryManagerImpl implements CategoryManager {
     private CategoryService categoryService;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public CategoryEntity add(int parentId, String name, int level) {
         if (categoryService.findOne(0, name) != null) {
             throw new NormalException("类目已经存在");
@@ -32,6 +35,7 @@ public class CategoryManagerImpl implements CategoryManager {
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public CategoryBean findOne(int id, String name) {
         CategoryEntity entity = categoryService.findOne(id, name);
         if (entity == null) {
@@ -41,6 +45,7 @@ public class CategoryManagerImpl implements CategoryManager {
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<CategoryBean> any() {
         List<CategoryBean> beans = new ArrayList<>();
         // 1. 所有一级类目
@@ -68,6 +73,7 @@ public class CategoryManagerImpl implements CategoryManager {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int delete(int id) {
         return categoryService.delete(id);
     }

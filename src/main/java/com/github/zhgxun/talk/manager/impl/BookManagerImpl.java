@@ -5,6 +5,8 @@ import com.github.zhgxun.talk.manager.BookManager;
 import com.github.zhgxun.talk.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class BookManagerImpl implements BookManager {
     private BookService bookService;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public BookEntity add(int categoryId, String title, String author, String nickName, String url, String description, int playCount) {
         BookEntity entity = new BookEntity();
         entity.setCategoryId(categoryId);
@@ -29,21 +32,25 @@ public class BookManagerImpl implements BookManager {
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public BookEntity findOne(int id, int categoryId, String title) {
         return bookService.findOne(id, categoryId, title);
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<BookEntity> any(int categoryId, String title, String author, String nickName) {
         return bookService.findAny(categoryId, title, author, nickName);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int update(int id, String url, String description, int playCount) {
         return bookService.update(id, url, description, playCount);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int delete(int id) {
         return bookService.delete(id);
     }

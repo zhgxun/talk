@@ -25,7 +25,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserEntity code(UserType type, String code) {
         // 1. 收到回调后即添加用户, 用户存在即为已授权成功直接返回成功即可
         String codes = userService.code(type, code);
@@ -45,8 +45,7 @@ public class UserManagerImpl implements UserManager {
         // 管理员通过修改数据行记录, 全部默认为普通用户
         entity.setRole(UserRole.NONE);
         entity.setType(type);
-        userService.add(entity, part);
-        return userService.findOne(entity.getId(), null, 0);
+        return userService.add(entity, part);
     }
 
     @Override
@@ -62,6 +61,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int delete(int id) {
         return userService.delete(id);
     }

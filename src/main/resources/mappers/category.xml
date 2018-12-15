@@ -20,7 +20,7 @@
     <select id="findOne" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
-        FROM category
+        FROM `category`
         <where>
             <if test="id != null and id > 0">
                 id = #{id}
@@ -34,7 +34,7 @@
     <select id="findAny" resultType="com.github.zhgxun.talk.entity.CategoryEntity">
         SELECT
         <include refid="columns"/>
-        FROM category
+        FROM `category`
         <where>
             <if test="id != null and id > 0">
                 id = #{id}
