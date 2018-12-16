@@ -62,10 +62,16 @@
                 url = #{url},
             </if>
             <if test="description != null and description != ''">
-                description = #{description}
+                description = #{description},
             </if>
             <if test="playCount != null and playCount > 0">
-                play_count = play_count + #{playCount}
+                play_count = play_count + #{playCount},
+            </if>
+            <if test="creator != null and creator > 0">
+                creator = #{creator},
+            </if>
+            <if test="updateTime != null and updateTime > 0">
+                update_time = #{updateTime}
             </if>
         </set>
         WHERE id = #{id}

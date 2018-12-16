@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
         if (entity == null) {
             throw new NormalException("图书不存在");
         }
-        return bookDao.update(entity.getId(), url, description, playCount);
+        return bookDao.update(entity.getId(), url, description, playCount, 0, 0);
     }
 
     @Override

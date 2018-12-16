@@ -12,7 +12,5 @@ logging:
 # mybatis
 mybatis:
   mapper-locations: classpath:mappers/*.xml
-#  configuration:
-#    interceptors: com.github.zhgxun.talk.common.plugin.GeneralPlugin
 server:
   port: 80

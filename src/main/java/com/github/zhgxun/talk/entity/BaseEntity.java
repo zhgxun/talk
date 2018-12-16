@@ -1,13 +1,12 @@
 package com.github.zhgxun.talk.entity;
 
-import com.github.zhgxun.talk.common.util.DateUtil;
 import lombok.Data;
 
 @Data
-class BaseEntity {
+public class BaseEntity {
     private int id;
-    private int creator = 1;
-    private int updater = 1;
-    private Long createTime = DateUtil.getTimeStamp();
-    private Long updateTime = DateUtil.getTimeStamp();
+    private int creator;
+    private int updater;
+    private Long createTime;
+    private Long updateTime;
 }

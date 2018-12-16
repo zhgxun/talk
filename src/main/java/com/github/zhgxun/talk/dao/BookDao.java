@@ -15,7 +15,7 @@ public interface BookDao {
 
     List<BookEntity> findAny(@Param("categoryId") int categoryId, @Param("title") String title, @Param("author") String author, @Param("nickName") String nickName);
 
-    int update(@Param("id") int id, @Param("url") String url, @Param("description") String description, @Param("playCount") int playCount);
+    int update(@Param("id") int id, @Param("url") String url, @Param("description") String description, @Param("playCount") int playCount, @Param("creator") int creator, @Param("updateTime") long updateTime);
 
     int delete(@Param("id") int id);
 }
